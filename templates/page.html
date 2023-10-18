@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static element_id|add:'.css' %}">
+{% endblock %}
+
+{% block content %}
+    {{ view_model | json_script:'view-model' }}
+
+    <div id="{{ element_id }}"></div>
+
+    <script src="{% static 'vendors.js' %}"></script>
+    <script src="{% static 'runtime.js' %}"></script>
+    <script src="{% static element_id|add:'.js' %}"></script>
+{% endblock %}

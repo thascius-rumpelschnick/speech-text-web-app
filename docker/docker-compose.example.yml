@@ -1,0 +1,154 @@
+version: "3.9"
+
+services:
+
+  #  nginx:
+  #    image: nginx:alpine
+  #    container_name: nginx
+  #    restart: "no"
+  #    working_dir: /django_application
+  #    volumes:
+  #      - .:/django_application:cached
+  #      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:cached
+  #    ports:
+  #      - "8000:80"
+  #    links:
+  #      - python
+
+
+  python:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    container_name: python
+    restart: "no"
+    working_dir: /django_application
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/django_application
+    #    command: >
+    #      sh -c "python manage.py wait_for_db &&
+    #             python manage.py migrate &&
+    #             python manage.py runserver 0.0.0.0:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+#    command: tail -f /dev/null
+    env_file:
+      - .env
+    links:
+      - postgres
+      - node
+    depends_on:
+      - postgres
+      - node
+
+
+  postgres:
+    image: postgres:latest
+    container_name: postgresql
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: my_record_collection
+
+
+  node:
+    build: ./docker/node
+    container_name: node
+    working_dir: /django_application
+    restart: "no"
+    ports:
+      - "8080:6006"
+    volumes:
+      - .:/django_application
+    command: tail -f /dev/null
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '0.50'
+#          memory: 50M
+#        reservations:
+#          cpus: '0.25'
+#          memory: 20M
+
+volumes:
+  postgres-db:
+#  mariadb-db:
+#  mongo-db:
+
+networks:
+  django_project:
+
+  ### For later use.. ###
+
+  #  postgres:
+  #    image: postgres:10-alpine
+  #    environment:
+  #      - POSTGRES_DB=app
+  #      - POSTGRES_USER=postgres
+  #      - POSTGRES_PASSWORD=supersecretpassword
+
+  #  memcached:
+  #    image: memcached:alpine
+  #    container_name: memcached
+
+
+  #  mailhog:
+  #    image: mailhog/mailhog:latest
+  #    container_name: mailhog
+  #    ports:
+  #      - "8889:8025"
+
+
+  #  redis:
+  #    image: redis:alpine
+  #    container_name: redis
+
+  #  mariadb:
+  #    image: mariadb:latest
+  #    container_name: mariab
+  #    restart: "no"
+  #    ports:
+  #      - "3306:3306"
+  #    volumes:
+  #      - mariadb-db:/var/lib/mysql
+  #    environment:
+  #      MARIADB_DATABASE: my_record_collection
+  #      MARIADB_ROOT_PASSWORD: toor
+  #      MARIADB_USER: user
+  #      MARIADB_PASSWORD: password
+
+
+  #  mongo:
+  #    image: mongo:latest
+  #    container_name: mongo
+  #    restart: "no"
+  #    ports:
+  #      - "27017:27017"
+  #    volumes:
+  #      - mongo-db:/data/db
+  #    environment:
+  #      MONGO_INITDB_ROOT_USERNAME: user
+  #      MONGO_INITDB_ROOT_PASSWORD: password
+
+
+  #  mongo-express:
+  #    image: mongo-express
+  #    container_name: mongo-express
+  #    restart: "no"
+  #    ports:
+  #      - "8081:8081"
+  #    environment:
+  #      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+  #      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+  #      ME_CONFIG_MONGODB_SERVER: mongo
+  #      ME_CONFIG_MONGODB_URL: mongodb://user:password@mongo:27017/
+  #    links:
+  #      - mongo
+  #    depends_on:
+  #      - mongo

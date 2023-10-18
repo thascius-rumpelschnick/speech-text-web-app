@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+
+  python:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    container_name: speech_text_python
+    restart: "no"
+    working_dir: /django_application
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/django_application:cached
+    command: python manage.py runserver 0.0.0.0:8000
+    #    command: tail -f /dev/null
+    env_file:
+      - .env
+    #    links:
+    #      - postgres
+    #      - node
+    depends_on:
+      - postgres
+      - node
+
+  postgres:
+    image: postgres:latest
+    container_name: speech_text_postgresql
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    #    environment:
+    #      POSTGRES_USER: user
+    #      POSTGRES_PASSWORD: password
+    #      POSTGRES_DB: speech_text
+
+
+  node:
+    build: ./docker/node
+    container_name: speech_text_node
+    working_dir: /django_application
+    restart: "no"
+    ports:
+      - "6006:6006"
+    volumes:
+      - .:/django_application:delegated
+    command: tail -f /dev/null
+
+volumes:
+  postgres-db:
+
+networks:
+  django_project:

@@ -1,0 +1,11 @@
+[flake8]
+exclude = 
+    venv,
+    .git,
+    __pycache__,
+    assets,
+    build,
+    dist,
+    static,
+    templates,
+max-complexity = 10

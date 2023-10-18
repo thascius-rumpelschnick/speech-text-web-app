@@ -1,0 +1,33 @@
+### IDEs ###
+.idea
+.vscode
+
+### MacOS ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+### Assets ###
+.cache/
+coverage/
+dist/*
+!dist/index.html
+*.log
+
+application/static/*
+node_modules
+storybook-static
+
+### Python ###
+__pycache__
+.venv
+venv
+
+### Project ###
+.env
+db.sqlite3
+static
