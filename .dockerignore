@@ -1,7 +1,11 @@
 docker
-node_modules
 docs
-storybook-static
-README.md
-docker-compose.yml
+assets/node_modules
+assets/static
+.gitattributes
 .gitignore
+docker-compose.yml
+docker-compose.production.yml
+.env
+.env.example
+README.md

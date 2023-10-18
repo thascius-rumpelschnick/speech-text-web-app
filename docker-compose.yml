@@ -20,9 +20,9 @@ services:
     #    links:
     #      - postgres
     #      - node
-    depends_on:
-      - postgres
-      - node
+    #    depends_on:
+    #      - postgres
+    #      - node
 
   postgres:
     image: postgres:latest
@@ -31,14 +31,13 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - speech_text_node_network_postgres-db:/var/lib/postgresql/data
     env_file:
       - .env
     #    environment:
     #      POSTGRES_USER: user
     #      POSTGRES_PASSWORD: password
     #      POSTGRES_DB: speech_text
-
 
   node:
     build: ./docker/node
@@ -48,11 +47,12 @@ services:
     ports:
       - "6006:6006"
     volumes:
-      - .:/django_application:delegated
+      - ./assets:/django_application:cached
     command: tail -f /dev/null
+    # command: "npm i && npm run build-dev"
 
 volumes:
-  postgres-db:
+  speech_text_node_network_postgres-db:
 
 networks:
-  django_project:
+  speech_text_node_network:
