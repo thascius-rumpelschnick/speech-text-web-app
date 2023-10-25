@@ -1,17 +1,15 @@
 FROM python:3.12.0-bookworm
 
-MAINTAINER Florian Zapf
-
 ARG USER=user
 ARG WORKDIR=django_application
 
-RUN adduser --system --group --no-create-home $USER
+RUN adduser --system --group --no-create-home ${USER}
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir $WORKDIR
-WORKDIR $WORKDIR
+RUN mkdir ${WORKDIR}
+WORKDIR ${WORKDIR}
 COPY . .
 
 COPY requirements.txt .

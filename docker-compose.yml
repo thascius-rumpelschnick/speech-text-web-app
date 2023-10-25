@@ -23,6 +23,8 @@ services:
     #    depends_on:
     #      - postgres
     #      - node
+    networks:
+      - speech_text_dev_network
 
   postgres:
     image: postgres:latest
@@ -31,13 +33,15 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - speech_text_node_network_postgres-db:/var/lib/postgresql/data
+      - speech_text_dev_postgres-db:/var/lib/postgresql/data
     env_file:
       - .env
     #    environment:
     #      POSTGRES_USER: user
     #      POSTGRES_PASSWORD: password
     #      POSTGRES_DB: speech_text
+    networks:
+      - speech_text_dev_network
 
   node:
     build: ./docker/node
@@ -52,7 +56,7 @@ services:
     # command: "npm i && npm run build-dev"
 
 volumes:
-  speech_text_node_network_postgres-db:
+  speech_text_dev_postgres-db:
 
 networks:
-  speech_text_node_network:
+  speech_text_dev_network:
