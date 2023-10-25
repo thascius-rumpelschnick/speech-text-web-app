@@ -2,7 +2,7 @@
 
 ## Authors
 
-Nakoto Musisi, Florian Zapf
+Nakato Musisi, Florian Zapf
 
 [Development](./docs/development.md)
 
