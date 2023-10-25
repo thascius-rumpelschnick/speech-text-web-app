@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useViewModel = <T = any>() => {
+const useViewModel = <T = never>() => {
     const [viewModel, setViewModel] = useState<T | undefined>(undefined);
 
     useEffect(() => {
@@ -8,7 +8,7 @@ const useViewModel = <T = any>() => {
         setViewModel(JSON.parse(model));
     }, []);
 
-    return viewModel as T
-}
+    return viewModel as T;
+};
 
 export default useViewModel;
