@@ -11,9 +11,11 @@ services:
     working_dir: /django_application
     ports:
       - "8000:8000"
+      - "5678:5678"
     volumes:
       - .:/django_application:cached
-    command: python manage.py runserver 0.0.0.0:8000
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:8000 --nothreading --noreload"]
+    #    command: python manage.py runserver 0.0.0.0:8000
     #    command: tail -f /dev/null
     env_file:
       - .env
@@ -22,7 +24,6 @@ services:
     #      - node
     #    depends_on:
     #      - postgres
-    #      - node
     networks:
       - speech_text_dev_network
 
