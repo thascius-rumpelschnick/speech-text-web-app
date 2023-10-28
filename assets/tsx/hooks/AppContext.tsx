@@ -6,7 +6,7 @@ export interface User {
 }
 
 export interface AppContext<M extends object> {
-    user: User | null
+    user: User | null,
     model: M,
 }
 
@@ -22,6 +22,4 @@ export const AppContext = createContext(viewModel);
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line react/prop-types
-export const AppContextProvider = ({context, children}) => {
-    return <AppContext.Provider value={context}>{ children }</AppContext.Provider>;
-};
+export const AppContextProvider = ({context, children}) => <AppContext.Provider value={ context }>{ children }</AppContext.Provider>;
