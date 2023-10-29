@@ -14,11 +14,11 @@ Thumbs.db
 ### Assets ###
 .cache/
 coverage/
-dist/*
+**/dist/
 !dist/index.html
 *.log
+stories/
 
-application/static/*
 node_modules
 storybook-static
 
@@ -30,4 +30,3 @@ venv
 ### Project ###
 .env
 db.sqlite3
-static

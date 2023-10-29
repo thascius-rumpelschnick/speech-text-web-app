@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static element_id|add:'.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/'|add:element_id|add:'.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
 
     <div id="{{ element_id }}"></div>
 
-    <script src="{% static 'vendors.js' %}"></script>
-    <script src="{% static 'runtime.js' %}"></script>
-    <script src="{% static element_id|add:'.js' %}"></script>
+    <script src="{% static 'dist/vendors.js' %}"></script>
+    <script src="{% static 'dist/runtime.js' %}"></script>
+    <script src="{% static 'dist/'|add:element_id|add:'.js' %}"></script>
 {% endblock %}
