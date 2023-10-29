@@ -6,7 +6,7 @@
   "author": "Nakato Musisi, Florian Zapf",
   "license": "ISC",
   "scripts": {
-    "clean": "rm -rf ./static",
+    "clean": "rm -rf ./static/dist",
     "clean-node-modules": "rm -rf ./node_modules",
     "watch": "./node_modules/.bin/webpack watch --mode development",
     "build-dev": "./node_modules/.bin/webpack --mode development",

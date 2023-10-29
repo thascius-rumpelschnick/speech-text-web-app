@@ -11,7 +11,7 @@ const config = {
         index: "./tsx/index/entry.tsx",
     },
     output: {
-        path: path.resolve(__dirname, "static"),
+        path: path.resolve(__dirname, "static/dist"),
         filename: "[name].js"
     },
     devtool: "source-map",
