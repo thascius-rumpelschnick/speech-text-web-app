@@ -10,14 +10,10 @@ export interface AppContext<M extends object> {
     model: M,
 }
 
-let viewModel;
-try {
-    viewModel = JSON.parse(document.getElementById("view-model")?.textContent as string);
-} catch (error) {
-    console.debug("AppContext:", error);
-}
+const content = document.getElementById("view-model")?.textContent;
+const vm = JSON.parse(content ?? "{}");
 
-export const AppContext = createContext(viewModel);
+export const AppContext = createContext(vm);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
