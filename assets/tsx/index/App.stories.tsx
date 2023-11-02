@@ -4,7 +4,7 @@ import { AppContextProvider } from "../hooks/AppContext";
 import App from "./App";
 
 const meta = {
-    title: "Web-App/Index",
+    title: "Web-App/index",
     component: App,
     decorators: [
         (Story, context) => (
