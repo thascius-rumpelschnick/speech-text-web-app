@@ -6,7 +6,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 const NavigationBar = () => {
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar expand="lg">
             <Container fluid>
                 <Navbar.Brand href="#">Speech-To-Text</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

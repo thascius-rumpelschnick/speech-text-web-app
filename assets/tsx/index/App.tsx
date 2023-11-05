@@ -18,10 +18,14 @@ const App = () => {
 
     return (
         <>
-            <NavigationBar/>
-            <Container>
-                { user ? (<Dashboard/>) : (<IndexPage { ...model }/>) }
-            </Container>
+            <header>
+                <NavigationBar/>
+            </header>
+            <main>
+                <Container>
+                    { user ? (<Dashboard/>) : (<IndexPage { ...model }/>) }
+                </Container>
+            </main>
         </>
     );
 };
