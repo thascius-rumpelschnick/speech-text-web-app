@@ -19,6 +19,7 @@
     "/node_modules"
   ],
   "plugins": [
+    "@stylistic",
     "react",
     "@typescript-eslint"
   ],
@@ -26,9 +27,11 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
-//    "prettier"
+    //    "prettier"
   ],
   "rules": {
+    "@stylistic/array-bracket-spacing": ["error", "always"],
+    "@stylistic/object-curly-spacing": ["error", "always"],
     "indent": [
       "error",
       4

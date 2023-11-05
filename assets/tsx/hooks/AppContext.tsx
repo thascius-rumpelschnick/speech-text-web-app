@@ -1,9 +1,5 @@
 import React, { createContext } from "react";
-
-export interface User {
-    id: number,
-    name: string,
-}
+import { User } from "../interfaces/ContainerProps";
 
 export interface AppContext<M extends object> {
     user: User | null,
@@ -18,4 +14,4 @@ export const AppContext = createContext(vm);
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line react/prop-types
-export const AppContextProvider = ({context, children}) => <AppContext.Provider value={ context }>{ children }</AppContext.Provider>;
+export const AppContextProvider = ({ context, children }) => <AppContext.Provider value={ context }>{ children }</AppContext.Provider>;

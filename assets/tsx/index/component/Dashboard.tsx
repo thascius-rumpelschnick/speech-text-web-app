@@ -1,11 +1,13 @@
 import React from "react";
-import FileTypePDF from "../../shared/icon/FileTypePDF";
+import FileTypePDF from "../../icons/FileTypePDF";
+import Container from "react-bootstrap/Container";
+
 const Dashboard = () => {
     return (
-        <div>
+        <Container>
             <h1>Dashboard</h1>
             <FileTypePDF />
-        </div>
+        </Container>
     );
 };
 
