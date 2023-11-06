@@ -1,12 +1,12 @@
-import "./App.scss";
+import './App.scss';
 
-import React, { useContext } from "react";
-import Container from "react-bootstrap/Container";
+import React, { useContext } from 'react';
+import Container from 'react-bootstrap/Container';
 
-import { AppContext } from "../hooks/AppContext";
-import NavigationBar from "../components/NavigationBar";
-import Dashboard from "./component/Dashboard";
-import IndexPage from "./component/IndexPage";
+import NavigationBar from '../components/NavigationBar';
+import { AppContext } from '../hooks/AppContext';
+import Dashboard from './component/Dashboard';
+import IndexPage from './component/IndexPage';
 
 export interface ViewModel {
     title: string;
@@ -19,10 +19,10 @@ const App = () => {
     return (
         <Container fluid="md">
             <header>
-                <NavigationBar user={ user }/>
+                <NavigationBar user={user} />
             </header>
             <main>
-                { user ? (<Dashboard/>) : (<IndexPage { ...model }/>) }
+                {user ? (<Dashboard />) : (<IndexPage {...model} />)}
             </main>
         </Container>
     );
