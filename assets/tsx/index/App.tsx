@@ -1,12 +1,12 @@
-import './App.scss';
+import "./App.scss";
 
-import React, { useContext } from 'react';
-import Container from 'react-bootstrap/Container';
+import React, { useContext } from "react";
+import Container from "react-bootstrap/Container";
 
-import NavigationBar from '../components/NavigationBar';
-import { AppContext } from '../hooks/AppContext';
-import Dashboard from './component/Dashboard';
-import IndexPage from './component/IndexPage';
+import NavigationBar from "../components/NavigationBar";
+import { AppContext } from "../hooks/AppContext";
+import Dashboard from "./component/Dashboard";
+import IndexPage from "./component/IndexPage";
 
 export interface ViewModel {
     title: string;
