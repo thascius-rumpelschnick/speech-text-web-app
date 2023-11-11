@@ -1,6 +1,8 @@
 # ToDo's
 
 - [ ] Basic Frontend Scaffolding
+- [ ] Audio Recording
+- [ ] WYSIWYG
 - [ ] User authentication
 - [ ] Text to Speech
 - [ ] PDF
