@@ -1,27 +1,17 @@
 import React, { createContext } from "react";
-
-export interface User {
-    id: number,
-    name: string,
-}
+import { User } from "../interfaces/ContainerProps";
 
 export interface AppContext<M extends object> {
-    user: User | null
+    user: User | null,
     model: M,
 }
 
-let viewModel;
-try {
-    viewModel = JSON.parse(document.getElementById("view-model")?.textContent as string);
-} catch (error) {
-    console.debug("AppContext:", error);
-}
+const content = document.getElementById("view-model")?.textContent;
+const vm = JSON.parse(content ?? "{}");
 
-export const AppContext = createContext(viewModel);
+export const AppContext = createContext(vm);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line react/prop-types
-export const AppContextProvider = ({context, children}) => {
-    return <AppContext.Provider value={context}>{ children }</AppContext.Provider>;
-};
+export const AppContextProvider = ({ context, children }) => <AppContext.Provider value={ context }>{ children }</AppContext.Provider>;

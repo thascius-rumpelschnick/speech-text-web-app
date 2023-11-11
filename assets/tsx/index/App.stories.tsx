@@ -4,36 +4,36 @@ import { AppContextProvider } from "../hooks/AppContext";
 import App from "./App";
 
 const meta = {
-    title: "Web-App/index",
+    title: "Web-App/IndexPage",
     component: App,
     decorators: [
         (Story, context) => (
-            <AppContextProvider context={context.args}>
+            <AppContextProvider context={ context.args }>
                 <Story/>
             </AppContextProvider>
         ),
     ],
     parameters: {
         // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-        layout: "centered",
+        layout: "fullscreen",
     },
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-    tags: ["autodocs"],
+    tags: [ "autodocs" ],
 } satisfies Meta<typeof App>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const LoggedInUser: Story = {
     args: {
-        user: {id: 1, name: "Foo"},
-        model: {title: "Hello World"},
+        user: { id: 1, name: "Foo" },
+        model: { title: "Hello World" },
     },
 };
 
-export const Secondary: Story = {
+export const NotLoggedInUser: Story = {
     args: {
-        user: {id: 1, name: "Foo"},
-        model: {title: "Hello World"},
+        user: null,
+        model: { title: "Hello World" },
     },
 };
