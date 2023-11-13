@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { User } from "../interfaces/ContainerProps";
+import { User } from "../interface/ContainerProps";
 
 export interface AppContext<M extends object> {
     user: User | null,

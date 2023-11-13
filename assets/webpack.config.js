@@ -6,9 +6,11 @@ const CopyPlugin = require("copy-webpack-plugin");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const getEntry = (pageName) => `./tsx/page/${pageName}/entry.tsx`;
+
 const config = {
     entry: {
-        index: "./tsx/index/entry.tsx",
+        index: getEntry("index"),
     },
     output: {
         path: path.resolve(__dirname, "static/dist"),

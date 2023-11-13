@@ -3,8 +3,8 @@ import "./App.scss";
 import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
 
-import NavigationBar from "../components/NavigationBar";
-import { AppContext } from "../hooks/AppContext";
+import NavigationBar from "../../component/NavigationBar";
+import { AppContext } from "../../hook/AppContext";
 import Dashboard from "./component/Dashboard";
 import IndexPage from "./component/IndexPage";
 
