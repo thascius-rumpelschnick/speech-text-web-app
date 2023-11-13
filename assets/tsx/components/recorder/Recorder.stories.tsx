@@ -1,11 +1,11 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { AppContextProvider } from "../hooks/AppContext";
-import App from "./App";
+import { AppContextProvider } from "../../hooks/AppContext";
+import Recorder from "./Recorder";
 
 const meta = {
-    title: "Web-App/Page/IndexPage",
-    component: App,
+    title: "Web-App/Component/Recorder",
+    component: Recorder,
     decorators: [
         (Story, context) => (
             <div style={ { minHeight: "500px" } }>
@@ -27,21 +27,14 @@ const meta = {
     },
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
     tags: [ "autodocs" ],
-} satisfies Meta<typeof App>;
+} satisfies Meta<typeof Recorder>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const LoggedInUser: Story = {
+export const AudioRecorder: Story = {
     args: {
         user: { id: 1, name: "Foo" },
-        model: { title: "Hello World" },
-    },
-};
-
-export const NotLoggedInUser: Story = {
-    args: {
-        user: null,
         model: { title: "Hello World" },
     },
 };
