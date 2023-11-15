@@ -12,6 +12,7 @@
 
 ## WYSIWYG
 
+- <https://github.com/facebook/lexical>
 - <https://blog.logrocket.com/best-text-editors-react/>
 
 ## Recording Audio

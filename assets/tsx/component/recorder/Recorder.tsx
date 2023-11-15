@@ -283,6 +283,10 @@ export function RecordingsList({ audio }: RecordingsListProps) {
 
 // App
 
+/**
+ * React Voice Recorder.
+ * @link: https://dev.to/jleonardo007/create-a-voice-recorder-with-react-32j6
+ */
 const Recorder = () => {
     const { recorderState, ...handlers }: UseRecorder = useRecorder();
     const { audio } = recorderState;
