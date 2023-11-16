@@ -3,8 +3,8 @@ import "./App.scss";
 import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
 
-import NavigationBar from "../../component/NavigationBar";
-import { AppContext } from "../../hook/AppContext";
+import NavigationBar from "../../components/NavigationBar";
+import { AppContext } from "../../hooks/AppContext";
 import Dashboard from "./component/Dashboard";
 import IndexPage from "./component/IndexPage";
 
@@ -21,9 +21,7 @@ const App = () => {
             <header>
                 <NavigationBar user={user} />
             </header>
-            <main>
-                {user ? (<Dashboard />) : (<IndexPage {...model} />)}
-            </main>
+            <main>{user ? <Dashboard /> : <IndexPage {...model} />}</main>
         </Container>
     );
 };

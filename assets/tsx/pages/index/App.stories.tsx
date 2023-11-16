@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { AppContextProvider } from "../../hook/AppContext";
+import { AppContextProvider } from "../../hooks/AppContext";
 import App from "./App";
 
 const meta = {
@@ -8,9 +8,9 @@ const meta = {
     component: App,
     decorators: [
         (Story, context) => (
-            <div style={ { minHeight: "500px" } }>
-                <AppContextProvider context={ context.args }>
-                    <Story/>
+            <div style={{ minHeight: "500px" }}>
+                <AppContextProvider context={context.args}>
+                    <Story />
                 </AppContextProvider>
             </div>
         ),
@@ -20,13 +20,11 @@ const meta = {
         layout: "fullscreen",
         backgrounds: {
             default: "darkish",
-            values: [
-                { name: "darkish", value: "rgb(33, 37, 41)" },
-            ],
+            values: [{ name: "darkish", value: "rgb(33, 37, 41)" }],
         },
     },
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-    tags: [ "autodocs" ],
+    tags: ["autodocs"],
 } satisfies Meta<typeof App>;
 
 export default meta;

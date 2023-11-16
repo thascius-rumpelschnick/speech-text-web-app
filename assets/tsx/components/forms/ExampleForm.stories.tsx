@@ -1,16 +1,16 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { AppContextProvider } from "../../hook/AppContext";
-import Recorder from "./Recorder";
+import { AppContextProvider } from "../../hooks/AppContext";
+import ExampleForm from "./ExampleForm";
 
 const meta = {
-    title: "Web-App/Component/Recorder",
-    component: Recorder,
+    title: "Web-App/Form/ExampleForm",
+    component: ExampleForm,
     decorators: [
         (Story, context) => (
-            <div style={ { minHeight: "500px" } }>
-                <AppContextProvider context={ context.args }>
-                    <Story/>
+            <div style={{ minHeight: "500px" }}>
+                <AppContextProvider context={context.args}>
+                    <Story />
                 </AppContextProvider>
             </div>
         ),
@@ -20,19 +20,17 @@ const meta = {
         layout: "fullscreen",
         backgrounds: {
             default: "darkish",
-            values: [
-                { name: "darkish", value: "rgb(33, 37, 41)" },
-            ],
+            values: [ { name: "darkish", value: "rgb(33, 37, 41)" } ],
         },
     },
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
     tags: [ "autodocs" ],
-} satisfies Meta<typeof Recorder>;
+} satisfies Meta<typeof ExampleForm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const AudioRecorder: Story = {
+export const Form: Story = {
     args: {
         user: { id: 1, name: "Foo" },
         model: { title: "Hello World" },

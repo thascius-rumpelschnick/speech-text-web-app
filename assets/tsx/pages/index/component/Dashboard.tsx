@@ -1,5 +1,5 @@
 import React from "react";
-import FileTypePDF from "../../../icon/FileTypePDF";
+import FileTypePDF from "../../../icons/FileTypePDF";
 import Container from "react-bootstrap/Container";
 
 const Dashboard = () => {
