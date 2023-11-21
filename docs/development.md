@@ -12,6 +12,7 @@
 
 ## WYSIWYG
 
+- <https://github.com/facebook/lexical>
 - <https://blog.logrocket.com/best-text-editors-react/>
 
 ## Recording Audio
@@ -35,6 +36,10 @@
 
 - <https://createapp.dev/webpack/react--babel--bootstrap--cleanwebpackplugin--code-split-vendors--copywebpackplugin--jest--lodash--minicssextractplugin--mocha--moment--png--prettier--sass--svg--typescript>
 - <https://storybook.js.org/blog/storybook-for-webpack-5/>
+
+### Forms
+
+- <https://react-hook-form.com/>
 
 ### Style & Linter
 

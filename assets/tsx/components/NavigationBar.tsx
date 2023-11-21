@@ -14,13 +14,14 @@ const NavigationBar = ({ user }: NavigationBarProps) => {
         <Navbar expand="lg">
             <Container fluid>
                 <Navbar.Brand href="#">Speech-To-Text</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
+                    <Nav className="ms-auto">
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#link">Link</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
+                <span>{user?.name ? `Hallo ${user.name}` : "Hallo Du da"}</span>
             </Container>
         </Navbar>
     );
