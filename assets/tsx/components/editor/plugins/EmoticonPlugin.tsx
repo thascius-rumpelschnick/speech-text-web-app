@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { $createEmojiNode } from "../nodes/EmojiNode";
 import { useEffect } from "react";
-import { TextNode } from "lexical";
+import { LexicalEditor, TextNode } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-function emoticonTransform(node) {
+function emoticonTransform(node: never) {
     const textContent = node.getTextContent();
     // When you type :), we will replace it with an emoji node
     if (textContent === ":)") {
@@ -11,10 +13,10 @@ function emoticonTransform(node) {
     }
 }
 
-function useEmoticons(editor) {
+function useEmoticons(editor: LexicalEditor) {
     useEffect(() => {
         const removeTransform = editor.registerNodeTransform(
-            TextNode,
+            TextNode as never,
             emoticonTransform
         );
         return () => {

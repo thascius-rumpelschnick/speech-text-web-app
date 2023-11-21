@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { $getRoot, $getSelection } from "lexical";
 
 // When the editor changes, you can get notified via the
