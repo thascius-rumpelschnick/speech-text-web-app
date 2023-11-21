@@ -1,10 +1,10 @@
-export const User = {
+const User = {
     name: "User1",
     email: "user@example.com",
     isLoggedIn: true,
 };
 
-export const Collection = [
+const Collection = [
     {
         id: 1,
         updated: "2022-03-01",
@@ -25,3 +25,5 @@ export const Collection = [
         ],
     },
 ];
+
+export { User, Collection };

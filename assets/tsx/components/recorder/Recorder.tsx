@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import "./Recorder.scss";
+import { ExclamationCircle,Floppy,Microphone,Trash,XCircle } from "../icons/Icons";
 
 // Handlers
 
@@ -221,7 +222,7 @@ export function RecorderControls({ recorderState, handlers }: RecorderControlsPr
                 { initRecording && (
                     <div className="cancel-button-container">
                         <button className="cancel-button" title="Cancel recording" onClick={ cancelRecording }>
-                            {/*<FontAwesomeIcon icon={ faTimes }/>*/ }
+                            <XCircle />
                         </button>
                     </div>
                 ) }
@@ -234,11 +235,11 @@ export function RecorderControls({ recorderState, handlers }: RecorderControlsPr
                         disabled={ recordingSeconds === 0 }
                         onClick={ saveRecording }
                     >
-                        {/*<FontAwesomeIcon icon={ faSave } size="2x"/>*/ }
+                        <Floppy />
                     </button>
                 ) : (
                     <button className="start-button" title="Start recording" onClick={ startRecording }>
-                        {/*<FontAwesomeIcon icon={ faMicrophone } size="2x"/>*/ }
+                        <Microphone />
                     </button>
                 ) }
             </div>
@@ -264,7 +265,7 @@ export function RecordingsList({ audio }: RecordingsListProps) {
                                         title="Delete this audio"
                                         onClick={ () => deleteAudio(record.key) }
                                     >
-                                        {/*<FontAwesomeIcon icon={ faTrashAlt }/>*/}
+                                        <Trash />
                                     </button>
                                 </div>
                             </div>
@@ -273,7 +274,7 @@ export function RecordingsList({ audio }: RecordingsListProps) {
                 </>
             ) : (
                 <div className="no-records">
-                    {/*<FontAwesomeIcon icon={ faExclamationCircle } size="2x" color="#f2ea02"/>*/}
+                    <ExclamationCircle />
                     <span>You don&apos;t have records</span>
                 </div>
             ) }

@@ -216,13 +216,13 @@
   cursor: pointer;
 }
 
-.cancel-button:hover {
-  color: #fd1c03;
-}
-
 .cancel-button {
   width: 25px;
   height: 25px;
+
+  &:hover {
+    color: #fd1c03;
+  }
 }
 
 .start-button-container {
@@ -231,12 +231,12 @@
   place-content: center;
 }
 
-.start-button:hover {
-  color: #41295a;
-  background-color: #f2ea02;
-}
-
 .start-button {
   width: 40px;
   height: 40px;
+
+  &:hover {
+    color: #41295a;
+    background-color: #f2ea02;
+  }
 }
