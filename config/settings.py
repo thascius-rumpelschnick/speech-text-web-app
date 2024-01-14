@@ -127,6 +127,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'assets/static',
 ]
 
+STATIC_ROOT = environment['STATIC_ROOT']
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
