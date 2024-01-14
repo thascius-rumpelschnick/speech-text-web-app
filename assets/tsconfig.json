@@ -2,19 +2,12 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
     "jsx": "react",
     "module": "es6",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "outDir": "./static/dist/",
-    "paths": {
-      "*": [
-        "tsx/*",
-        "scss/*"
-      ]
-    },
     "sourceMap": true,
     "strict": true,
     "target": "es5"

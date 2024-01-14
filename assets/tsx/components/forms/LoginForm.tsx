@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import useApiRequest, { ApiRequestData, redirect } from "hooks/ApiRequest";
+import useApiRequest, { ApiRequestData, redirect } from "../../hooks/ApiRequest";
 
 interface LoginFormData extends ApiRequestData {
     username: string;

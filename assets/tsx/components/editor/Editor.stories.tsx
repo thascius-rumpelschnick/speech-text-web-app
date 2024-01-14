@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { StorybookContextProvider } from "hooks/AppContext";
+import { StorybookContextProvider } from "../../hooks/AppContext";
 import Editor from "./Editor";
 
 const meta = {

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { User } from "interfaces/ContainerProps";
+import { User } from "../interfaces/ContainerProps";
 
 interface ContextData<M extends object> {
     user: User | null;

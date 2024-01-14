@@ -2,9 +2,8 @@ import "./App.scss";
 
 import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
-
-import NavigationBar from "components/NavigationBar";
-import { AppContext } from "hooks/AppContext";
+import NavigationBar from "../../components/NavigationBar";
+import { AppContext } from "../../hooks/AppContext";
 
 export interface ViewModel {
     title: string;
@@ -19,7 +18,7 @@ const App = () => {
     const handleClick = () => {
         setContext({
             ...context,
-            user: { id: 1, name: "Bar" }
+            user: { id: 1, name: "Bar" },
         });
     };
 

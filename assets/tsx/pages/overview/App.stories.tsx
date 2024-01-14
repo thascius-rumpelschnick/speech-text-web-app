@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { StorybookContextProvider } from "hooks/AppContext";
-import App from "pages/overview/App";
+import { StorybookContextProvider } from "../../hooks/AppContext";
+import App from "./App";
 
 const meta = {
     title: "Web-App/Page/OverviewPage",
