@@ -2,18 +2,20 @@ import "./App.scss";
 
 import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
+import NavigationBar from "components/NavigationBar";
+import { AppContext, AppContextData } from "hooks/AppContext";
+import Dashboard from "pages/index/component/Dashboard";
+import IndexPage from "pages/index/component/IndexPage";
 
-import NavigationBar from "../../components/NavigationBar";
-import { AppContext } from "../../hooks/AppContext";
-import Dashboard from "./component/Dashboard";
-import IndexPage from "./component/IndexPage";
 
 export interface ViewModel {
     title: string;
 }
 
 const App = () => {
-    const context = useContext<AppContext<ViewModel>>(AppContext);
+    console.info("INDEX PAGE");
+
+    const { context } = useContext<AppContextData<ViewModel>>(AppContext);
     const { user, model } = context;
 
     return (

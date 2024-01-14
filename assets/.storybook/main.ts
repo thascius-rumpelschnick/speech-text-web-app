@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-webpack5";
+import * as path from "path";
 
 const config: StorybookConfig = {
     stories: [
@@ -12,7 +13,7 @@ const config: StorybookConfig = {
         "@storybook/addon-onboarding",
         "@storybook/addon-interactions",
         "@storybook/preset-scss",
-        "@storybook/addon-mdx-gfm"
+        "@storybook/addon-mdx-gfm",
     ],
     framework: {
         name: "@storybook/react-webpack5",
@@ -20,6 +21,15 @@ const config: StorybookConfig = {
     },
     docs: {
         autodocs: "tag",
+    },
+    webpackFinal: async (config, { configType }) => {
+        config.resolve.modules = [
+            ...(config.resolve.modules || []),
+            path.resolve(__dirname, "./../tsx"),
+            path.resolve(__dirname, "./../scss"),
+        ];
+
+        return config;
     },
 };
 export default config;

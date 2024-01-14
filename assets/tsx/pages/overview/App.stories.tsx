@@ -1,11 +1,11 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { StorybookContextProvider } from "../../hooks/AppContext";
-import ExampleForm from "./ExampleForm";
+import { StorybookContextProvider } from "hooks/AppContext";
+import App from "pages/overview/App";
 
 const meta = {
-    title: "Web-App/Form/ExampleForm",
-    component: ExampleForm,
+    title: "Web-App/Page/OverviewPage",
+    component: App,
     decorators: [
         (Story, context) => (
             <div style={{ minHeight: "500px" }}>
@@ -25,14 +25,21 @@ const meta = {
     },
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
     tags: [ "autodocs" ],
-} satisfies Meta<typeof ExampleForm>;
+} satisfies Meta<typeof App>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Form: Story = {
+export const LoggedInUser: Story = {
     args: {
         user: { id: 1, name: "Foo" },
+        model: { title: "Hello World" },
+    },
+};
+
+export const NotLoggedInUser: Story = {
+    args: {
+        user: null,
         model: { title: "Hello World" },
     },
 };
