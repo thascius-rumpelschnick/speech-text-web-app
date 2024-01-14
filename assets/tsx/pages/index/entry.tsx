@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { AppContextProvider } from "hooks/AppContext";
-import App from "./App";
+import App from "pages/index/App";
 
 const container = document.getElementById("index");
 
