@@ -1,9 +1,12 @@
 # Speech to Text Web App
 
+Speech to Text Web App...
+
 ## Authors
 
-Nakato Musisi, Florian Zapf
+Florian Zapf
 
-[Development](./docs/development.md)
+## Docs
 
-[ToDo's](./docs/todo.md)
+1. [Development](./docs/development.md)
+2. [ToDo's](./docs/todo.md)
