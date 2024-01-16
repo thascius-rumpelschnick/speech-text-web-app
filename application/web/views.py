@@ -24,6 +24,7 @@ class IndexView(View):
         model = {'title': 'Django with Webpack and Babel'}
 
         context = {
+            'title': 'Text To Speech Web App - Index',
             'element_id': 'index',
             'view_model': {'user': user, 'model': model}
         }

@@ -23,7 +23,7 @@ const App = () => {
             <header>
                 <NavigationBar user={user} />
             </header>
-            <main>{user ? <Dashboard /> : <IndexPage {...model} />}</main>
+            <main>{user != null ? <Dashboard /> : <IndexPage {...model} />}</main>
         </Container>
     );
 };

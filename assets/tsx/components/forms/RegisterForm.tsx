@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import useApiRequest, { ApiRequestData } from "../../hooks/ApiRequest";
+import useApiRequest, {
+    ApiRequestData,
+    redirect,
+} from "../../hooks/ApiRequest";
 
 interface RegisterFormData extends ApiRequestData {
     username: string;
@@ -17,19 +20,20 @@ const RegisterForm = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    
+
     useEffect(() => {
         console.log(data);
-    }, [ isLoading ]);
-    
+
+        if (data.status === 200) {
+            return redirect("/overview");
+        }
+    }, [ data ]);
+
     return (
-        <Form 
-            onSubmit={
-                handleSubmit(
-                    (registerData) => {
-                        post("register", { ...registerData } as RegisterFormData, true);
-                    }
-                )}
+        <Form
+            onSubmit={handleSubmit((registerData) => {
+                post("register", { ...registerData } as RegisterFormData, true);
+            })}
         >
             <Form.Group className="mb-3" controlId="register-username">
                 <Form.Label>Username</Form.Label>
@@ -49,7 +53,7 @@ const RegisterForm = () => {
                 </Form.Text>
                 {errors.username && <p>{errors.username.message as string}</p>}
             </Form.Group>
-            
+
             <Form.Group className="mb-3" controlId="register-email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -59,7 +63,7 @@ const RegisterForm = () => {
                         required: "Email is required",
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                            message: "Invalid email address" 
+                            message: "Invalid email address",
                         },
                     })}
                 />
@@ -74,10 +78,9 @@ const RegisterForm = () => {
                 <Form.Control
                     type="password"
                     placeholder="Enter Password"
-                    {...register(
-                        "password", 
-                        { required: "Password is required" }
-                    )}
+                    {...register("password", {
+                        required: "Password is required",
+                    })}
                 />
                 <Form.Text className="text-muted">
                     We&apos;ll never share your age with anyone else.
