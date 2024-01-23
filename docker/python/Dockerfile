@@ -1,4 +1,4 @@
-FROM python:3.12.0-bookworm
+FROM python:3.12.1-bookworm
 
 ARG USER=appuser
 ARG WORKDIR=django_application
@@ -16,6 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN adduser -u 5678 --system --group --no-create-home --disabled-password --gecos "" ${USER} && chown -R ${USER} /${WORKDIR}
 USER ${USER}
+
+# USER root
 
 #RUN mkdir -p /vol/web/media
 #RUN mkdir -p /vol/web/static

@@ -1,5 +1,5 @@
 [flake8]
-exclude = 
+exclude =
     venv,
     .git,
     __pycache__,
@@ -9,3 +9,4 @@ exclude =
     static,
     templates,
 max-complexity = 10
+max-line-length = 120
