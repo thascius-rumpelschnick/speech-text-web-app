@@ -17,8 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN adduser -u 5678 --system --group --no-create-home --disabled-password --gecos "" ${USER} && chown -R ${USER} /${WORKDIR}
 USER ${USER}
 
-# USER root
-
 #RUN mkdir -p /vol/web/media
 #RUN mkdir -p /vol/web/static
 
