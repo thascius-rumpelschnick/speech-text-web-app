@@ -15,18 +15,34 @@ def get_user(request):
         return None
 
 
+def get_tokens(request):
+    csrftoken = request.COOKIES['csrftoken'] if 'csrftoken' in request.COOKIES else None
+    sessiontoken = request.COOKIES['sessiontoken'] if 'sessiontoken' in request.COOKIES else None
+
+    return {
+        'csrftoken': csrftoken,
+        'sessiontoken': sessiontoken
+    }
+
+
 # Main pages
 
 class IndexView(View):
 
     def get(self, request):
+        tokens = get_tokens(request)
         user = get_user(request)
         model = {'title': 'Django with Webpack and Babel'}
 
         context = {
             'title': 'Text To Speech Web App - Index',
             'element_id': 'index',
-            'view_model': {'user': user, 'model': model}
+            'contains_form': True,
+            'view_model': {
+                'tokens': tokens,
+                'user': user,
+                'model': model
+            }
         }
 
         return render(request, 'page.html', context)
