@@ -11,7 +11,7 @@ const getEntry = (pageName) => `./tsx/pages/${pageName}/entry.tsx`;
 const config = {
     entry: {
         index: getEntry("index"),
-        // overview: getEntry("overview"),
+        overview: getEntry("overview"),
     },
     output: {
         path: path.resolve(__dirname, "static/dist"),

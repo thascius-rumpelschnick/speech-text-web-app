@@ -51,16 +51,22 @@ class IndexView(View):
 class OverviewView(View):
 
     def get(self, request):
+        tokens = get_tokens(request)
         user = get_user(request)
+        model = {'title': 'Django with Webpack and Babel'}
 
         if not user:
             return redirect('index')
 
-        model = {'title': 'Django with Webpack and Babel'}
-
         context = {
+            'title': 'Text To Speech Web App - Overview',
             'element_id': 'overview',
-            'view_model': {'user': user, 'model': model}
+            'contains_form': True,
+            'view_model': {
+                'tokens': tokens,
+                'user': user,
+                'model': model
+            }
         }
 
         return render(request, 'page.html', context)
