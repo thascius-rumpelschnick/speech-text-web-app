@@ -2,17 +2,18 @@
 const webpack = require("webpack");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const CopyPlugin = require("copy-webpack-plugin");
 
 const getEntry = (pageName) => `./tsx/pages/${pageName}/entry.tsx`;
+const entry = {
+    index: getEntry("index"),
+    overview: getEntry("overview"),
+};
 
 const config = {
-    entry: {
-        index: getEntry("index"),
-        overview: getEntry("overview"),
-    },
+    entry,
     output: {
         path: path.resolve(__dirname, "static/dist"),
         filename: "[name].js"
