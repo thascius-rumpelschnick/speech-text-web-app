@@ -1,14 +1,19 @@
 import React, { createContext, useState } from "react";
 import { User } from "../interfaces/ContainerProps";
 
-interface ContextData<M extends object> {
+export interface ContextData<M extends object> {
     user: User | null;
     model: M;
 }
 
 export interface AppContextData<M extends object> {
     context: ContextData<M>;
-    setContext: (context: ContextData<M>) => void;
+    setContext: (
+        context: (context: ContextData<M>) => {
+            model: M;
+            user: User;
+        },
+    ) => void;
 }
 
 const content = document.getElementById("view-model")?.textContent;

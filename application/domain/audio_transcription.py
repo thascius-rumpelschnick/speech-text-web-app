@@ -19,7 +19,7 @@ class AbstractAudioTranscriber:
     TEXT_FILE = 'test.txt'
 
     def __init__(self) -> None:
-        self._recognizer = sr.Recognizer()
+        self._recognizer: sr.Recognizer = sr.Recognizer()
 
     def transcribe(self) -> None:
         """transcribe()"""
@@ -37,7 +37,7 @@ class GoogleAudioTranscriber(AbstractAudioTranscriber):
 
         try:
             with open(self.TEXT_FILE, 'w', encoding='utf-8') as file:
-                file.write(self._recognizer.recognize_google(
+                file.write (self._recognizer.recognize_google_cloud(
                     audio, language='de-DE'))
 
             print('Google Speech Recognition completed.')

@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { useForm, FieldValues } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import useApiRequest, { ApiRequestData, redirect } from "../../hooks/ApiRequest";
+import useApiRequest, {
+    ApiRequestData,
+    redirect,
+} from "../../hooks/ApiRequest";
 
 interface LoginFormData extends ApiRequestData {
     username: string;
@@ -14,26 +18,30 @@ const LoginForm = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, touchedFields },
+        setError,
     } = useForm();
+    const [ isValidated, setIsValidated ] = useState(false);
+
+    const onSubmit = (loginData: FieldValues): void => {
+        post("login", { ...loginData } as LoginFormData, true);
+    };
 
     useEffect(() => {
         console.log(data);
 
         if (data.status === 200) {
-            return redirect("/overview");
+            return redirect("");
         }
     }, [ data ]);
     
+    useEffect(() => {
+        console.error(touchedFields);
+        setIsValidated(!_.isEmpty(touchedFields));
+    }, [ touchedFields ]);
+
     return (
-        <Form 
-            onSubmit={
-                handleSubmit(
-                    (loginData) => {
-                        post("login", { ...loginData } as LoginFormData, true);
-                    }
-                )}
-        >
+        <Form noValidate validated={isValidated} onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="login-username">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -48,9 +56,13 @@ const LoginForm = () => {
                     })}
                 />
                 <Form.Text className="text-muted">
-                    We&apos;ll never share your age with anyone else.
+                    Please enter your username.
                 </Form.Text>
-                {errors.username && <p>{errors.username.message as string}</p>}
+                {errors.username && (
+                    <Form.Control.Feedback type="invalid">
+                        {errors.username.message as string}
+                    </Form.Control.Feedback>
+                )}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="login-password">
@@ -58,15 +70,18 @@ const LoginForm = () => {
                 <Form.Control
                     type="password"
                     placeholder="Enter Password"
-                    {...register(
-                        "password", 
-                        { required: "Password is required" }
-                    )}
+                    {...register("password", {
+                        required: "Password is required",
+                    })}
                 />
                 <Form.Text className="text-muted">
-                    We&apos;ll never share your age with anyone else.
+                    Please enter your password.
                 </Form.Text>
-                {errors.password && <p>{errors.password.message as string}</p>}
+                {errors.password && (
+                    <Form.Control.Feedback type="invalid">
+                        {errors.password.message as string}
+                    </Form.Control.Feedback>
+                )}
             </Form.Group>
 
             <Button variant="primary" type="submit">

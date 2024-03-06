@@ -1,9 +1,13 @@
 import "./App.scss";
 
 import React, { useContext } from "react";
+import { Row, Col } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import NavigationBar from "../../components/NavigationBar";
-import { AppContext } from "../../hooks/AppContext";
+import {
+    AppContext,
+    AppContextData,
+} from "../../hooks/AppContext";
 
 export interface ViewModel {
     title: string;
@@ -12,14 +16,15 @@ export interface ViewModel {
 const App = () => {
     console.info("OVERVIEW PAGE");
 
-    const { context, setContext } = useContext(AppContext);
+    const { context, setContext } =
+        useContext<AppContextData<object>>(AppContext);
     const { user } = context;
 
     const handleClick = () => {
-        setContext({
+        setContext((context) => ({
             ...context,
             user: { id: 1, name: "Bar" },
-        });
+        }));
     };
 
     return (
@@ -27,7 +32,11 @@ const App = () => {
             <header>
                 <NavigationBar user={user} />
             </header>
-            <main onClick={handleClick}>Overview</main>
+            <main onClick={handleClick}>
+                <Row>
+                    <Col>Overview</Col>
+                </Row>
+            </main>
         </Container>
     );
 };

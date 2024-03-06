@@ -28,6 +28,10 @@ interface ResponseData {
     error?: boolean;
 }
 
+type Config = {
+    headers: Record<string, string>
+};
+
 const fromSuccess = (response: AxiosResponse): ResponseData => {
     return {
         status: response.status,
@@ -49,21 +53,22 @@ const fromError = (error: AxiosError): ResponseData => {
 const useApiRequest = () => {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ data, setData ] = useState<ResponseData>({});
-
-    const config = {
+    const [ config, setConfig ] = useState<Config>({
         headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": "",
-            "X-AUTH": "",
-        },
-    };
+        }
+    });
 
     useEffect(() => {
         // data status statusText
-        // Get CRSF + session (sessionid) token from Cookie
-        config.headers["X-CSRFToken"] = getCookieByName("csrftoken");
-        config.headers["X-AUTH"] = getCookieByName("sessionid");
-    }, [ data ]);
+        setConfig(prevConfig => ({
+            headers: {
+                ...prevConfig.headers,
+                "X-CSRFToken": getCookieByName("csrftoken"),
+                "X-AUTH": getCookieByName("sessionid"),
+            }
+        }));
+    }, []);
 
     const get = (url: string) => {
         setIsLoading(true);

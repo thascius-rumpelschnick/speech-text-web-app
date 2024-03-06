@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import "./Recorder.scss";
-import { ExclamationCircle,Floppy,Microphone,Trash,XCircle } from "../icons/Icons";
+import { ApiRequestData } from "../../hooks/ApiRequest";
+import { ExclamationCircle, Floppy, Microphone, Trash, XCircle, CloudArrowUp } from "../icons/Icons";
 
 // Handlers
 
@@ -32,13 +33,13 @@ export function saveRecording(recorder: unknown) {
 
 // Hooks
 
-export function useRecordingsList(audio: string | null) {
+export function useRecordingsList(audio: string | null, blob: Blob) {
     const [ recordings, setRecordings ] = useState<Audio[]>([]);
 
     useEffect(() => {
         if (audio)
             setRecordings((prevState: Audio[]) => {
-                return [ ...prevState, { key: generateKey(), audio } ];
+                return [ ...prevState, { key: generateKey(), audio, blob } ];
             });
     }, [ audio ]);
 
@@ -55,9 +56,10 @@ const initialState: RecorderState = {
     mediaStream: null,
     mediaRecorder: null,
     audio: null,
+    blob: new Blob(),
 };
 
-export function useRecorder() {
+const useRecorder = () => {
     const [ recorderState, setRecorderState ] = useState<RecorderState>(initialState);
 
     useEffect(() => {
@@ -67,10 +69,7 @@ export function useRecorder() {
         if (recorderState.initRecording)
             recordingInterval = setInterval(() => {
                 setRecorderState((prevState: RecorderState) => {
-                    if (
-                        prevState.recordingMinutes === MAX_RECORDER_TIME &&
-                        prevState.recordingSeconds === 0
-                    ) {
+                    if (prevState.recordingMinutes === MAX_RECORDER_TIME && prevState.recordingSeconds === 0) {
                         typeof recordingInterval === "number" && clearInterval(recordingInterval);
                         return prevState;
                     }
@@ -127,6 +126,7 @@ export function useRecorder() {
                         return {
                             ...initialState,
                             audio: window.URL.createObjectURL(blob),
+                            blob,
                         };
                     else return initialState;
                 });
@@ -144,7 +144,7 @@ export function useRecorder() {
         cancelRecording: () => setRecorderState(initialState),
         saveRecording: () => saveRecording(recorderState.mediaRecorder),
     };
-}
+};
 
 // Types
 
@@ -155,6 +155,7 @@ export type RecorderState = {
     mediaStream: MediaStream | null;
     mediaRecorder: MediaRecorder | null;
     audio: string | null;
+    blob: Blob;
 };
 
 export type UseRecorder = {
@@ -175,11 +176,14 @@ export type RecorderControlsProps = {
 
 export type RecordingsListProps = {
     audio: string | null;
+    blob: Blob;
+    uploadAudio: (title: string, recordedBlob: Blob) => void;
 };
 
 export type Audio = {
     key: string;
     audio: string;
+    blob: Blob;
 };
 
 export type Interval = null | number | ReturnType<typeof setInterval>;
@@ -193,11 +197,11 @@ export type MediaRecorderEvent = {
 // Utils
 
 export function formatMinutes(minutes: number) {
-    return minutes < 10 ? `0${ minutes }` : `${ minutes }`;
+    return minutes < 10 ? `0${minutes}` : `${minutes}`;
 }
 
 export function formatSeconds(seconds: number) {
-    return seconds < 10 ? `0${ seconds }` : `${ seconds }`;
+    return seconds < 10 ? `0${seconds}` : `${seconds}`;
 }
 
 export function generateKey() {
@@ -206,7 +210,7 @@ export function generateKey() {
 
 // Components
 
-export function RecorderControls({ recorderState, handlers }: RecorderControlsProps) {
+const RecorderControls = ({ recorderState, handlers }: RecorderControlsProps) => {
     const { recordingMinutes, recordingSeconds, initRecording } = recorderState;
     const { startRecording, saveRecording, cancelRecording } = handlers;
 
@@ -214,62 +218,72 @@ export function RecorderControls({ recorderState, handlers }: RecorderControlsPr
         <div className="controls-container">
             <div className="recorder-display">
                 <div className="recording-time">
-                    { initRecording && <div className="recording-indicator"></div> }
-                    <span>{ formatMinutes(recordingMinutes) }</span>
+                    {initRecording && <div className="recording-indicator"></div>}
+                    <span>{formatMinutes(recordingMinutes)}</span>
                     <span>:</span>
-                    <span>{ formatSeconds(recordingSeconds) }</span>
+                    <span>{formatSeconds(recordingSeconds)}</span>
                 </div>
-                { initRecording && (
+                {initRecording && (
                     <div className="cancel-button-container">
-                        <button className="cancel-button" title="Cancel recording" onClick={ cancelRecording }>
+                        <button className="cancel-button" title="Cancel recording" onClick={cancelRecording}>
                             <XCircle />
                         </button>
                     </div>
-                ) }
+                )}
             </div>
             <div className="start-button-container">
-                { initRecording ? (
+                {initRecording ? (
                     <button
                         className="start-button"
                         title="Save recording"
-                        disabled={ recordingSeconds === 0 }
-                        onClick={ saveRecording }
+                        disabled={recordingSeconds === 0}
+                        onClick={saveRecording}
                     >
                         <Floppy />
                     </button>
                 ) : (
-                    <button className="start-button" title="Start recording" onClick={ startRecording }>
+                    <button className="start-button" title="Start recording" onClick={startRecording}>
                         <Microphone />
                     </button>
-                ) }
+                )}
             </div>
         </div>
     );
-}
+};
 
-export function RecordingsList({ audio }: RecordingsListProps) {
-    const { recordings, deleteAudio } = useRecordingsList(audio);
+const RecordingsList = ({ audio, blob, uploadAudio }: RecordingsListProps) => {
+    const { recordings, deleteAudio } = useRecordingsList(audio, blob);
 
     return (
         <div className="recordings-container">
-            { recordings.length > 0 ? (
+            {recordings.length > 0 ? (
                 <>
                     <h1>Your recordings</h1>
                     <div className="recordings-list">
-                        { recordings.map((record) => (
-                            <div className="record" key={ record.key }>
-                                <audio controls src={ record.audio }/>
+                        {recordings.map((record) => (
+                            <div className="record" key={record.key}>
+                                <audio controls src={record.audio} />
                                 <div className="delete-button-container">
                                     <button
                                         className="delete-button"
                                         title="Delete this audio"
-                                        onClick={ () => deleteAudio(record.key) }
+                                        onClick={() => deleteAudio(record.key)}
                                     >
                                         <Trash />
                                     </button>
+                                    <button
+                                        className="delete-button"
+                                        title="Upload this audio"
+                                        onClick={() => {
+                                            console.log(record.audio);
+                                            uploadAudio(record.key, record.blob);
+                                        }}
+                                    >
+                                        <CloudArrowUp />
+                                    </button>
                                 </div>
                             </div>
-                        )) }
+                        ))}
                     </div>
                 </>
             ) : (
@@ -277,27 +291,38 @@ export function RecordingsList({ audio }: RecordingsListProps) {
                     <ExclamationCircle />
                     <span>You don&apos;t have records</span>
                 </div>
-            ) }
+            )}
         </div>
     );
-}
+};
 
 // App
+
+interface RecorderProps {
+    post: (url: string, data: ApiRequestData, isForm: boolean) => void;
+}
 
 /**
  * React Voice Recorder.
  * @link: https://dev.to/jleonardo007/create-a-voice-recorder-with-react-32j6
  */
-const Recorder = () => {
+const Recorder = ({ post }: RecorderProps) => {
     const { recorderState, ...handlers }: UseRecorder = useRecorder();
-    const { audio } = recorderState;
+    const { audio, blob } = recorderState;
+
+    const uploadAudio = (title: string, recordedBlob: Blob) => {
+        const formData = new FormData();
+        formData.append("recording", recordedBlob, `${title}.webm`);
+
+        post("/upload", formData, true);
+    };
 
     return (
         <section className="voice-recorder">
             <h1 className="title">Voice Recorder</h1>
             <div className="recorder-container">
-                <RecorderControls recorderState={ recorderState } handlers={ handlers }/>
-                <RecordingsList audio={ audio }/>
+                <RecorderControls recorderState={recorderState} handlers={handlers} />
+                <RecordingsList audio={audio} blob={blob} uploadAudio={uploadAudio} />
             </div>
         </section>
     );
