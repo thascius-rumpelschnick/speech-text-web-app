@@ -8,8 +8,6 @@ import Logger from "../utils/Logger";
 type NavigationBarProps = { user: User | null };
 
 const NavigationBar = ({ user }: NavigationBarProps) => {
-    Logger.info("User", user);
-
     return (
         <Navbar expand="lg">
             <Container fluid>

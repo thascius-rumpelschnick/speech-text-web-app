@@ -10,7 +10,7 @@ const getEntry = (pageName) => `./tsx/pages/${pageName}/entry.tsx`;
 const entry = {
     index: getEntry("index"),
     overview: getEntry("overview"),
-    add: getEntry("add"),
+    upload: getEntry("upload"),
     edit: getEntry("edit"),
 };
 

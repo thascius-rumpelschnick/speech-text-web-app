@@ -25,6 +25,8 @@ interface ResponseData {
     status?: number;
     statusText?: string;
     body?: unknown;
+    code?: string;
+    message?: string;
     error?: boolean;
 }
 
@@ -45,7 +47,9 @@ const fromError = (error: AxiosError): ResponseData => {
     return {
         status: error.response?.status,
         statusText: error.response?.statusText,
-        body: { code: error.code, message: error.message },
+        body: error.response?.data ?? {},
+        code: error.code,
+        message: error.message,
         error: true,
     };
 };

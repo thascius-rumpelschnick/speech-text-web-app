@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import NavigationBar from "../../components/NavigationBar";
 import Recorder from "../../components/recorder/Recorder";
-import useApiRequest from "../../hooks/ApiRequest";
+import useApiRequest, { redirect } from "../../hooks/ApiRequest";
 import { AppContext, AppContextData } from "../../hooks/AppContext";
 
 export interface ViewModel {
@@ -23,6 +23,11 @@ const App = () => {
 
     useEffect(() => {
         console.error("DATA:", data);
+
+        if (data.status === 201) {
+            const body = data.body as { redirectTo: string };
+            redirect(body.redirectTo);
+        }
     }, [ data ]);
 
     return (

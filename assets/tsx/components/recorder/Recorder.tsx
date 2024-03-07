@@ -312,7 +312,7 @@ const Recorder = ({ post }: RecorderProps) => {
 
     const uploadAudio = (title: string, recordedBlob: Blob) => {
         const formData = new FormData();
-        formData.append("recording", recordedBlob, `${title}.webm`);
+        formData.append("audio", recordedBlob, `${title}.ogg`);
 
         post("/upload", formData, true);
     };
