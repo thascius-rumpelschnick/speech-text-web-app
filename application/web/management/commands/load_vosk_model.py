@@ -35,7 +35,7 @@ class Command(BaseCommand):
         default_model_dir = options['default_model_dir'] if options['default_model_dir'] else DEFAULT_MODEL_DIR
         default_model = options['default_model'] if options['default_model'] else DEFAULT_MODEL
 
-        self.stdout.write(self.style.INFO('Starting to load Vosk model...'))
+        self.stdout.write(self.style.SUCCESS('Starting to load Vosk model...'))
 
         try:
             download_vosk_model(default_model, default_model_dir)
