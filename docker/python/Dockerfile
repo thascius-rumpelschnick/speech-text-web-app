@@ -10,6 +10,11 @@ RUN mkdir ${WORKDIR}
 WORKDIR ${WORKDIR}
 COPY . .
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    flac \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
