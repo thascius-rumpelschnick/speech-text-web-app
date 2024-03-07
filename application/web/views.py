@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseForbidden
 from django.utils.decorators import method_decorator
@@ -5,6 +7,11 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
+
+from application.domain.audio_transcription import AudioTranscription, Transcriber
+from application.web.models import Transcription
+
+LOGGER = logging.getLogger(__name__)
 
 
 def get_user(request):
@@ -139,8 +146,8 @@ class AudioUploadView(View):
 
         model = {'title': 'Django with Webpack and Babel'}
         context = {
-            'title': 'Text To Speech Web App - Overview',
-            'element_id': 'add',
+            'title': 'Text To Speech Web App - Upload',
+            'element_id': 'upload',
             'contains_form': True,
             'view_model': {
                 'tokens': tokens,
@@ -152,23 +159,34 @@ class AudioUploadView(View):
         return render(request, 'page.html', context)
 
     def post(self, request, *args, **kwargs):
-        tokens = get_tokens(request)
         user = get_user(request)
 
         if not user:
             return redirect('index')
 
-        audio_file = request.FILES.get("recording")
+        audio = request.FILES.get('audio')
 
-        if audio_file:
-            # Save the audio file (change path and filename as needed)
-            with open(f"uploads/{audio_file.name}", "wb") as file:
-                for chunk in audio_file.chunks():
-                    file.write(chunk)
+        if audio:
+            transcriber = AudioTranscription.get(transcriber=Transcriber.VOSK)
+            # transcriber.transcribe_to_file(audio)
+            transcription = '''
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna 
+                aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
+                Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor 
+                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
+                no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            '''
+            transcription = transcriber.transcribe_to_text(audio)
 
-            return JsonResponse({"message": "Audio uploaded successfully!"})
+            entity = Transcription.objects.create(user=request.user, content=transcription)
+
+            return JsonResponse({'redirectTo': f'/edit/{entity.id}'}, status=201)
+            # return redirect('edit', transcription_id=1)
         else:
-            return JsonResponse({"error": "No audio file uploaded!"}, status=400)
+            return JsonResponse({'error': 'No audio file uploaded!'}, status=400)
 
 
 # Transcription pages
@@ -182,9 +200,17 @@ class EditTranscriptionView(View):
         if not user:
             return redirect('index')
 
-        model = {'title': 'Django with Webpack and Babel'}
+        entity = Transcription.objects.get(id=transcription_id)
+
+        model = {'transcription': {
+            'id': entity.id,
+            'content': entity.content,
+            'createdAt': entity.created_at,
+            'updatedAt': entity.updated_at
+        }}
+
         context = {
-            'title': 'Text To Speech Web App - Overview',
+            'title': 'Text To Speech Web App - Edit',
             'element_id': 'edit',
             'contains_form': True,
             'view_model': {
@@ -195,6 +221,30 @@ class EditTranscriptionView(View):
         }
 
         return render(request, 'page.html', context)
+
+    def patch(self, request, transcription_id, *args, **kwargs):
+        tokens = get_tokens(request)
+        user = get_user(request)
+
+        if not user:
+            return redirect('index')
+
+        entity = Transcription.objects.get(id=transcription_id)
+
+        model = {'transcription': entity}
+
+        context = {
+            'title': 'Text To Speech Web App - Edit',
+            'element_id': 'edit',
+            'contains_form': True,
+            'view_model': {
+                'tokens': tokens,
+                'user': user,
+                'model': model
+            }
+        }
+
+        return JsonResponse(status=200, data={'transcription': transcription_id})
 
 
 class RemoveTranscriptionView(View):
