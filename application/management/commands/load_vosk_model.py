@@ -1,22 +1,20 @@
 """
-Utility functions for the project.
+Command for downloading the Vosk German speech model.
 """
 
 import shutil
-import zipfile
-import io
-import os
-import requests
 from django.core.management.base import BaseCommand, CommandError
+
+from application.domain.utils import directory_exists, download_and_unpack_zip
 
 DEFAULT_MODEL = 'vosk-model-de-0.21'
 DEFAULT_MODEL_DIR = 'model'
 
 
-def download_vosk_models(model: str = DEFAULT_MODEL, destination: str = DEFAULT_MODEL_DIR) -> None:
-    """download_vosk_models"""
+def download_vosk_model(model: str = DEFAULT_MODEL, destination: str = DEFAULT_MODEL_DIR) -> None:
+    """download_vosk_model"""
 
-    if not directory_exists(f'./{destination}'):
+    if not directory_exists(destination):
         print(f'Downloading Vosk model {model}...')
         download_and_unpack_zip(f'https://alphacephei.com/vosk/models/{model}.zip')
 
@@ -24,21 +22,6 @@ def download_vosk_models(model: str = DEFAULT_MODEL, destination: str = DEFAULT_
         shutil.move(f'./{model}', f'./{destination}')
 
         print('Done.')
-
-
-def directory_exists(directory) -> bool:
-    """directory_exists"""
-
-    return os.path.isdir(directory)
-
-
-def download_and_unpack_zip(source, extract_to='.') -> None:
-    """download_and_unpack_zip"""
-
-    response = requests.get(source, timeout=300)
-
-    with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
-        zip_ref.extractall(extract_to)
 
 
 class Command(BaseCommand):
@@ -52,11 +35,11 @@ class Command(BaseCommand):
         default_model_dir = options['default_model_dir'] if options['default_model_dir'] else DEFAULT_MODEL_DIR
         default_model = options['default_model'] if options['default_model'] else DEFAULT_MODEL
 
+        self.stdout.write(self.style.INFO('Starting to load Vosk model...'))
+
         try:
-            download_vosk_models(default_model, default_model_dir)
+            download_vosk_model(default_model, default_model_dir)
         except:
             raise CommandError('Could not load model')
 
-        self.stdout.write(
-            self.style.SUCCESS('Successfully loaded model')
-        )
+        self.stdout.write(self.style.SUCCESS('Successfully loaded model'))
