@@ -1,5 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { ApiRequestData } from "../../hooks/ApiRequest";
 import { StorybookContextProvider } from "../../hooks/AppContext";
 import Recorder from "./Recorder";
 
@@ -32,7 +33,6 @@ type Story = StoryObj<typeof meta>;
 
 export const AudioRecorder: Story = {
     args: {
-        user: { id: 1, name: "Foo" },
-        model: { title: "Hello World" },
+        post: (url: string, data: ApiRequestData, isForm: boolean) => alert(`${url} ${data} ${isForm}`),
     },
 };
