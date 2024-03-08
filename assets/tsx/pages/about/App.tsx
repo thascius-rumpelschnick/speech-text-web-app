@@ -1,42 +1,44 @@
 import "./App.scss";
 
 import React, { useContext } from "react";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Row, Col } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import Editor from "../../components/editor/Editor";
 import Footer from "../../components/Footer";
 import NavigationBar from "../../components/NavigationBar";
-import { AppContext, AppContextData } from "../../hooks/AppContext";
-import { Transcription } from "../../interfaces/ContainerProps";
+import {
+    AppContext,
+    AppContextData,
+} from "../../hooks/AppContext";
 
 export interface ViewModel {
     title: string;
 }
 
 const App = () => {
-    console.info("EDIT PAGE");
+    console.info("OVERVIEW PAGE");
 
-    const { context, setContext } = useContext<AppContextData<Transcription>>(AppContext);
+    const { context, setContext } =
+        useContext<AppContextData<object>>(AppContext);
     const { user } = context;
+
+    const handleClick = () => {
+        setContext((context) => ({
+            ...context,
+            user: { id: 1, name: "Bar" },
+        }));
+    };
 
     return (
         <Container fluid="md">
             <header>
-                <NavigationBar user={user} />
+                <NavigationBar user={ user } />
             </header>
 
-            <main>
+            <main onClick={ handleClick }>
                 <Container>
                     <Row>
                         <Col>
-                            <h1>Edit</h1>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col>
-                            <Editor />
+                            <h1>About</h1>
                         </Col>
                     </Row>
                 </Container>

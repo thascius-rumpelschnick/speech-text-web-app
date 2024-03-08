@@ -1,13 +1,13 @@
 from django.urls import path
 
-from application.web.views import AudioUploadView, EditTranscriptionView, IndexView, OverviewView, RegisterView, \
-    LoginView, LogoutView, \
-    RemoveTranscriptionView
+from application.web.views import AudioUploadView, EditTranscriptionView, IndexView, AboutView, RegisterView, \
+    LoginView, LogoutView, RemoveTranscriptionView, SettingsView
 
 urlpatterns = [
     # Main Pages
     path('', IndexView.as_view(), name='index'),
-    path('overview', OverviewView.as_view(), name='overview'),
+    path('settings', SettingsView.as_view(), name='settings'),
+    path('about', AboutView.as_view(), name='about'),
 
     # User management pages
     path('register', RegisterView.as_view(), name='register'),

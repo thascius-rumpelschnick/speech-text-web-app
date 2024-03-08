@@ -8,10 +8,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const getEntry = (pageName) => `./tsx/pages/${pageName}/entry.tsx`;
 const entry = {
-    index: getEntry("index"),
-    overview: getEntry("overview"),
-    upload: getEntry("upload"),
+    about: getEntry("about"),
     edit: getEntry("edit"),
+    index: getEntry("index"),
+    settings: getEntry("settings"),
+    upload: getEntry("upload"),
 };
 
 const config = {

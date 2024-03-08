@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib.auth.models import User
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.shortcuts import render, redirect
@@ -34,6 +34,15 @@ def get_tokens(request):
     }
 
 
+def convert_from_entity(entity: Transcription):
+    return {
+        'id': entity.id,
+        'content': entity.content,
+        'createdAt': entity.created_at,
+        'updatedAt': entity.updated_at
+    }
+
+
 # Main pages
 
 class IndexView(View):
@@ -42,7 +51,14 @@ class IndexView(View):
     def get(self, request):
         tokens = get_tokens(request)
         user = get_user(request)
-        model = {'title': 'Django with Webpack and Babel'}
+
+        transcriptions = []
+
+        if user:
+            entities = Transcription.objects.filter(user=request.user).order_by('-created_at')
+            transcriptions = [convert_from_entity(entity) for entity in entities]
+
+        model = {'transcriptions': transcriptions}
 
         context = {
             'title': 'Text To Speech Web App - Index',
@@ -58,7 +74,7 @@ class IndexView(View):
         return render(request, 'page.html', context)
 
 
-class OverviewView(View):
+class SettingsView(View):
 
     def get(self, request):
         tokens = get_tokens(request)
@@ -69,8 +85,32 @@ class OverviewView(View):
             return redirect('index')
 
         context = {
-            'title': 'Text To Speech Web App - Overview',
-            'element_id': 'overview',
+            'title': 'Text To Speech Web App - Settings',
+            'element_id': 'settings',
+            'contains_form': True,
+            'view_model': {
+                'tokens': tokens,
+                'user': user,
+                'model': model
+            }
+        }
+
+        return render(request, 'page.html', context)
+
+
+class AboutView(View):
+
+    def get(self, request):
+        tokens = get_tokens(request)
+        user = get_user(request)
+        model = {'title': 'Django with Webpack and Babel'}
+
+        if user is None:
+            return redirect('index')
+
+        context = {
+            'title': 'Text To Speech Web App - About',
+            'element_id': 'about',
             'contains_form': True,
             'view_model': {
                 'tokens': tokens,
@@ -98,6 +138,8 @@ class RegisterView(View):
         # Perform your own validation and error handling here
 
         user = User.objects.create_user(username=username, password=password, email=email)
+
+        login(request, user)
 
         return redirect('index')
 
@@ -168,7 +210,6 @@ class AudioUploadView(View):
 
         if audio:
             transcriber = AudioTranscription.get(transcriber=Transcriber.VOSK)
-            # transcriber.transcribe_to_file(audio)
             transcription = '''
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
                 sed diam nonumy eirmod tempor invidunt ut labore et dolore magna 
@@ -183,10 +224,15 @@ class AudioUploadView(View):
 
             entity = Transcription.objects.create(user=request.user, content=transcription)
 
-            return JsonResponse({'redirectTo': f'/edit/{entity.id}'}, status=201)
-            # return redirect('edit', transcription_id=1)
+            return JsonResponse(
+                {'redirectTo': f'/edit/{entity.id}'},
+                status=201,
+            )
         else:
-            return JsonResponse({'error': 'No audio file uploaded!'}, status=400)
+            return JsonResponse(
+                {'error': 'No audio file uploaded!'},
+                status=HttpResponseBadRequest.status_code
+            )
 
 
 # Transcription pages
@@ -202,12 +248,7 @@ class EditTranscriptionView(View):
 
         entity = Transcription.objects.get(id=transcription_id)
 
-        model = {'transcription': {
-            'id': entity.id,
-            'content': entity.content,
-            'createdAt': entity.created_at,
-            'updatedAt': entity.updated_at
-        }}
+        model = {'transcription': convert_from_entity(entity)}
 
         context = {
             'title': 'Text To Speech Web App - Edit',
@@ -250,11 +291,13 @@ class EditTranscriptionView(View):
 class RemoveTranscriptionView(View):
 
     def get(self, request, transcription_id, *args, **kwargs):
-        tokens = get_tokens(request)
         user = get_user(request)
 
         if not user:
             return redirect('index')
+
+        entity = Transcription.objects.get(id=transcription_id)
+        entity.delete()
 
         return JsonResponse(
             status=200,

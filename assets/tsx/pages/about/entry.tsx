@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { AppContextProvider } from "../../hooks/AppContext";
 import App from "./App";
 
-const container = document.getElementById("overview");
+const container = document.getElementById("about");
 
 const root = createRoot(container!);
 

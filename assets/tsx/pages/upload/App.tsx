@@ -1,6 +1,7 @@
 import "./App.scss";
 
 import React, { useContext, useEffect } from "react";
+import { Alert } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -9,25 +10,30 @@ import NavigationBar from "../../components/NavigationBar";
 import Recorder from "../../components/recorder/Recorder";
 import useApiRequest, { redirect } from "../../hooks/ApiRequest";
 import { AppContext, AppContextData } from "../../hooks/AppContext";
+import LoadingModal from "./component/LoadingModal";
 
-export interface ViewModel {
-    title: string;
-}
 
 const App = () => {
-    console.info("ADD PAGE");
+    console.info("UPLOAD PAGE");
 
-    const { context, setContext } = useContext<AppContextData<object>>(AppContext);
+    const { context } = useContext<AppContextData<object>>(AppContext);
     const { user } = context;
 
     const { post, data, isLoading } = useApiRequest();
 
-    useEffect(() => {
-        console.error("DATA:", data);
+    const [ isError, setIsError ] = React.useState(false);
 
+    useEffect(() => {
         if (data.status === 201) {
             const body = data.body as { redirectTo: string };
+
             redirect(body.redirectTo);
+        }
+
+        if (data.status && data.status >= 400) {
+            console.error("DATA:", data);
+
+            setIsError(true);
         }
     }, [ data ]);
 
@@ -45,13 +51,16 @@ const App = () => {
                         </Col>
                     </Row>
 
-                    { isLoading && (
-                        <Row>
+                    { isError && (
+                        <Row className="mt-5">
                             <Col>
-                                <h2>IS LOADING!</h2>
+                                <Alert variant="danger" onClose={() => setIsError(false)} dismissible>
+                                    <Alert.Heading>Oops! Something went wrong!</Alert.Heading>
+                                    <p>Please try again another time...</p>
+                                </Alert>
                             </Col>
                         </Row>
-                    ) }
+                    )}
 
                     <Row>
                         <Col>
@@ -64,6 +73,8 @@ const App = () => {
             <footer>
                 <Footer />
             </footer>
+
+            <LoadingModal show={ isLoading } />
         </Container>
     );
 };

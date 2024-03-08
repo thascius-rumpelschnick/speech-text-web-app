@@ -12,9 +12,7 @@ import editorConfig from "./editorConfig";
 import onChange from "./onChange";
 import "./Editor.scss";
 
-const Placeholder = () => {
-    return <div className="editor-placeholder">Enter some plain text...</div>;
-};
+const Placeholder = () => <div className="editor-placeholder">Enter some plain text...</div>;
 
 /**
  * Meta Lexical Text Editor.

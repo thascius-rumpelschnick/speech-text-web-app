@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import { FileTypePDF, Pencil, Trash, CloudArrowUp } from "../../../components/icons/Icons";
+import { formatDateTime } from "../../../utils/Utils";
 import { ViewModel } from "../App";
+import DeleteModal from "./DeleteModal";
 
 const Dashboard = ({ transcriptions }: ViewModel) => {
+    const [ transcriptionId, setTranscriptionId ] = useState<number|undefined>(undefined);
+    const [ show, setShow ] = React.useState(false);
+
     return (
         <Container>
             <Row className="mb-5">
@@ -25,7 +30,7 @@ const Dashboard = ({ transcriptions }: ViewModel) => {
                 </Col>
             </Row>
 
-            <Row>
+            <Row className="mb-3">
                 <Col>
                     <h2>Transcriptions</h2>
                 </Col>
@@ -34,25 +39,41 @@ const Dashboard = ({ transcriptions }: ViewModel) => {
             <Row xs="auto" lg={4} className="gy-4">
                 {transcriptions.map((transcription, index) => (
                     <Col key={index}>
-                        <Card>
+                        <Card className="h-100">
+                            <Card.Header>Transcription No. {transcription.id}</Card.Header>
+
                             <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+                                <Card.Subtitle className="mb-3 text-muted">Updated: {formatDateTime(transcription.updatedAt)}</Card.Subtitle>
                                 <Card.Text>{`${transcription.content.substring(0, 150)}...`}</Card.Text>
+                            </Card.Body>
+
+                            <Card.Footer>
                                 <Card.Link href={`edit/${transcription.id}`}>
                                     <Pencil />
                                 </Card.Link>
                                 <Card.Link href="#">
                                     <FileTypePDF />
                                 </Card.Link>
-                                <Card.Link href={`remove/${transcription.id}`}>
+                                <Card.Link
+                                    onClick={
+                                        ()=> {
+                                            setTranscriptionId(transcription.id);
+                                            setShow(true);
+                                        }}
+                                >
                                     <Trash />
                                 </Card.Link>
-                            </Card.Body>
+                            </Card.Footer>
                         </Card>
                     </Col>
                 ))}
             </Row>
+
+            <DeleteModal
+                transcriptionId={transcriptionId}
+                show={show}
+                setShow={setShow}
+            />
         </Container>
     );
 };

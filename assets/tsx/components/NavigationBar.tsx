@@ -22,7 +22,7 @@ const NavigationBar = ({ user }: NavigationBarProps) => {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="ms-auto">
                                 <Nav.Link href="/">Dashboard</Nav.Link>
-                                <Nav.Link href="/overview">Overview</Nav.Link>
+                                <Nav.Link href="/settings">Settings</Nav.Link>
                                 <Nav.Link href="/logout">Logout</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>

@@ -15,10 +15,9 @@ export interface ViewModel {
 }
 
 const App = () => {
-    console.info("OVERVIEW PAGE");
+    console.info("SETTINGS PAGE");
 
-    const { context, setContext } =
-        useContext<AppContextData<object>>(AppContext);
+    const { context, setContext } = useContext<AppContextData<object>>(AppContext);
     const { user } = context;
 
     const handleClick = () => {
@@ -35,9 +34,13 @@ const App = () => {
             </header>
 
             <main onClick={ handleClick }>
-                <Row>
-                    <Col>Overview</Col>
-                </Row>
+                <Container>
+                    <Row>
+                        <Col>
+                            <h1>Settings</h1>
+                        </Col>
+                    </Row>
+                </Container>
             </main>
 
             <footer>
