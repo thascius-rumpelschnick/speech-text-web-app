@@ -54,14 +54,16 @@ const fromError = (error: AxiosError): ResponseData => {
     };
 };
 
+const initialConfig: Config = {
+    headers: {
+        "Content-Type": "application/json",
+    }
+};
+
 const useApiRequest = () => {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ data, setData ] = useState<ResponseData>({});
-    const [ config, setConfig ] = useState<Config>({
-        headers: {
-            "Content-Type": "application/json",
-        }
-    });
+    const [ config, setConfig ] = useState<Config>(initialConfig);
 
     useEffect(() => {
         // data status statusText
@@ -72,7 +74,7 @@ const useApiRequest = () => {
                 "X-AUTH": getCookieByName("sessionid"),
             }
         }));
-    }, []);
+    }, [ data ]);
 
     const get = (url: string) => {
         setIsLoading(true);
@@ -98,9 +100,24 @@ const useApiRequest = () => {
             .finally(() => setIsLoading(false));
     };
 
+    const patch = (url: string, data: ApiRequestData, isForm = false) => {
+        setIsLoading(true);
+
+        if (isForm) {
+            config.headers["Content-Type"] = "multipart/form-data";
+        }
+
+        axios
+            .patch(url, data, config)
+            .then((response) => setData(fromSuccess(response)))
+            .catch((error) => setData(fromError(error)))
+            .finally(() => setIsLoading(false));
+    };
+
     return {
         get,
         post,
+        patch,
         isLoading,
         data,
     };
