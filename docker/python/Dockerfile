@@ -2,10 +2,12 @@ FROM python:3.12.1-bookworm
 
 ARG USER=appuser
 ARG WORKDIR=django_application
+ARG NONEXISTENT=nonexistent
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+RUN mkdir ${NONEXISTENT}
 RUN mkdir ${WORKDIR}
 WORKDIR ${WORKDIR}
 COPY . .
@@ -19,7 +21,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN adduser -u 5678 --system --group --no-create-home --disabled-password --gecos "" ${USER} && chown -R ${USER} /${WORKDIR}
+RUN adduser -u 5678 --system --group --no-create-home --disabled-password --gecos "" ${USER} && chown -R ${USER} /${WORKDIR} && chown -R ${USER} /${NONEXISTENT}
 USER ${USER}
 
 #RUN mkdir -p /vol/web/media
