@@ -28,7 +28,7 @@ const DeleteModal = ({ transcriptionId, show, setShow }: DeleteModalProps) => {
 
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
-                <Button variant="danger" href={`remove/${transcriptionId}`}>
+                <Button variant="danger" href={`delete/${transcriptionId}`}>
                         Delete
                 </Button>
             </Modal.Footer>

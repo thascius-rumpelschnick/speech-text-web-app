@@ -31,7 +31,7 @@ const LoginForm = () => {
         console.log(data);
 
         if (data.status === 200) {
-            return redirect("");
+            return redirect("/");
         }
     }, [ data ]);
     
@@ -43,7 +43,7 @@ const LoginForm = () => {
     return (
         <Form noValidate validated={isValidated} onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="login-username">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>Username</Form.Label>
                 <Form.Control
                     type="input"
                     placeholder="Enter Username"
