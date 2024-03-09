@@ -144,3 +144,5 @@ STATIC_ROOT = environment['STATIC_ROOT']
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GOOGLE_APPLICATION_CREDENTIALS = environment['GOOGLE_APPLICATION_CREDENTIALS']
