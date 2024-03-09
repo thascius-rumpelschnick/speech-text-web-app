@@ -6,6 +6,7 @@ import json
 import os
 from enum import Enum
 
+from django.conf import settings
 import speech_recognition as sr
 from pydub import AudioSegment
 
@@ -17,13 +18,14 @@ class Transcriber(Enum):
 
     GOOGLE = 'google'
     VOSK = 'vosk'
+    WHISPER = 'whisper'
 
 
 class Language(Enum):
     """Language"""
 
-    GERMAN = 'de-DE'
-    ENGLISH = 'en-US'
+    GERMAN = ('german', 'de-DE')
+    ENGLISH = ('english', 'en-US')
 
 
 class AbstractAudioTranscriber:
@@ -67,14 +69,17 @@ class GoogleAudioTranscriber(AbstractAudioTranscriber):
 
     def process_transcription(self) -> None:
         try:
-            # self._transcription = self._recognizer.recognize_google_cloud(
-            #     self._audio_file,
-            #     language=self._language.value
-            # )
-            self._transcription = self._recognizer.recognize_google(
-                self._audio_file,
-                language=self._language.value
-            )
+            if settings.GOOGLE_APPLICATION_CREDENTIALS:
+                self._transcription = self._recognizer.recognize_google_cloud(
+                    self._audio_file,
+                    credentials_json=settings.GOOGLE_APPLICATION_CREDENTIALS,
+                    language=self._language.value[1]
+                )
+            else:
+                self._transcription = self._recognizer.recognize_google(
+                    self._audio_file,
+                    language=self._language.value[1]
+                )
 
             print('Google Speech Recognition completed.')
         except sr.UnknownValueError:
@@ -90,10 +95,7 @@ class VoskAudioTranscriber(AbstractAudioTranscriber):
     def process_transcription(self) -> None:
 
         try:
-            transcription = self._recognizer.recognize_vosk(
-                self._audio_file,
-                language=self._language.value
-            )
+            transcription = self._recognizer.recognize_vosk(self._audio_file)
 
             json_decoded = json.loads(transcription)
 
@@ -105,6 +107,28 @@ class VoskAudioTranscriber(AbstractAudioTranscriber):
         except sr.RequestError as e:
             print(
                 f'Could not request results from Vosk Speech Recognition service: {e}.')
+
+
+class WhisperAudioTranscriber(AbstractAudioTranscriber):
+    """WhisperAudioTranscriber"""
+
+    _MODEL = 'base'
+
+    def process_transcription(self) -> None:
+
+        try:
+            self._transcription = self._recognizer.recognize_whisper(
+                self._audio_file,
+                model=self._MODEL,
+                language=self._language.value[0]
+            )
+
+            print('Whisper Speech Recognition completed.')
+        except sr.UnknownValueError:
+            print('Whisper Speech Recognition could not understand audio.')
+        except sr.RequestError as e:
+            print(
+                f'Could not request results from Whisper Speech Recognition service: {e}.')
 
 
 class AudioFileHandler:
@@ -185,5 +209,7 @@ class AudioTranscription:
 
         if transcriber == Transcriber.VOSK:
             return AudioTranscription(VoskAudioTranscriber(language, AudioTranscription.TMP_DIR))
+        if transcriber == Transcriber.WHISPER:
+            return AudioTranscription(WhisperAudioTranscriber(language, AudioTranscription.TMP_DIR))
         else:
             return AudioTranscription(GoogleAudioTranscriber(language, AudioTranscription.TMP_DIR))

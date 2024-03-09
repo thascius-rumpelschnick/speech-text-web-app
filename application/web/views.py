@@ -8,8 +8,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from application.domain.audio_transcription import AudioTranscription, Transcriber
-from application.web.models import Transcription
+from application.domain.audio_transcription import AudioTranscription, Language, Transcriber
+from application.web.models import Setting, Transcription
 
 LOGGER = logging.getLogger(__name__)
 
@@ -135,9 +135,14 @@ class RegisterView(View):
         password = request.POST.get('password')
         email = request.POST.get('email')
 
-        # Perform your own validation and error handling here
+        if User.objects.filter(username=username).exists():
+            return JsonResponse(
+                status=HttpResponseForbidden.status_code,
+                data={'message': 'User with given username already registered'}
+            )
 
         user = User.objects.create_user(username=username, password=password, email=email)
+        Setting.objects.create(user=user, model=Transcriber.WHISPER.name, language=Language.GERMAN.name)
 
         login(request, user)
 
@@ -209,29 +214,26 @@ class AudioUploadView(View):
         audio = request.FILES.get('audio')
 
         if audio:
-            transcriber = AudioTranscription.get(transcriber=Transcriber.VOSK)
-            transcription = '''
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna 
-                aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-                Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor 
-                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-                At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
-                no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            '''
+            setting = Setting.objects.get(user=request.user)
+            model = setting.model
+            language = setting.language
+
+            transcriber = AudioTranscription.get(
+                transcriber=Transcriber[model],
+                language=Language[language]
+            )
             transcription = transcriber.transcribe_to_text(audio)
 
             entity = Transcription.objects.create(user=request.user, content=transcription)
 
             return JsonResponse(
-                {'redirectTo': f'/edit/{entity.id}'},
                 status=201,
+                data={'redirectTo': f'/edit/{entity.id}'}
             )
         else:
             return JsonResponse(
-                {'error': 'No audio file uploaded!'},
-                status=HttpResponseBadRequest.status_code
+                status=HttpResponseBadRequest.status_code,
+                data={'message': 'No audio file uploaded!'}
             )
 
 
@@ -243,7 +245,7 @@ class EditTranscriptionView(View):
         tokens = get_tokens(request)
         user = get_user(request)
 
-        if not user:
+        if not user or not Transcription.objects.filter(id=transcription_id).exists():
             return redirect('index')
 
         entity = Transcription.objects.get(id=transcription_id)
@@ -285,21 +287,21 @@ class EditTranscriptionView(View):
             }
         }
 
-        return JsonResponse(status=200, data={'transcription': transcription_id})
+        return JsonResponse(
+            status=200,
+            data={'transcription': transcription_id}
+        )
 
 
-class RemoveTranscriptionView(View):
+class DeleteTranscriptionView(View):
 
     def get(self, request, transcription_id, *args, **kwargs):
         user = get_user(request)
 
-        if not user:
+        if not user or not Transcription.objects.filter(id=transcription_id).exists():
             return redirect('index')
 
         entity = Transcription.objects.get(id=transcription_id)
         entity.delete()
 
-        return JsonResponse(
-            status=200,
-            data={'message': transcription_id}
-        )
+        return redirect('index')
