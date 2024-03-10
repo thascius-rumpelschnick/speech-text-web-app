@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 from django.contrib.auth.models import User
@@ -85,10 +84,13 @@ class SettingsView(View):
     def get(self, request):
         tokens = get_tokens(request)
         user = get_user(request)
-        model = {'title': 'Django with Webpack and Babel'}
 
         if user is None:
             return redirect('index')
+
+        setting = Setting.objects.filter(user=request.user).get()
+
+        model = {'setting': {'language': setting.language, 'model': setting.model}}
 
         context = {
             'title': 'Text To Speech Web App - Settings',
@@ -102,6 +104,21 @@ class SettingsView(View):
         }
 
         return render(request, 'page.html', context)
+
+    def post(self, request):
+        user = get_user(request)
+
+        if user is None:
+            return redirect('index')
+
+        setting = Setting.objects.filter(user=request.user).get()
+
+        setting.model = request.POST.get('model')
+        setting.language = request.POST.get('language')
+
+        setting.save()
+
+        return JsonResponse(status=200, data={'message': 'Settings updated'})
 
 
 class AboutView(View):
@@ -131,7 +148,7 @@ class AboutView(View):
 # User management pages
 
 class RegisterView(View):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user = get_user(request)
 
         if user is not None:
@@ -155,9 +172,23 @@ class RegisterView(View):
         return redirect('index')
 
 
+class DeleteUserView(View):
+
+    def get(self, request):
+        user = get_user(request)
+
+        if user is not None:
+            logout(request)
+
+            user = User.objects.get(id=user['id'])
+            user.delete()
+
+        return redirect('index')
+
+
 class LoginView(View):
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user = get_user(request)
 
         if user is not None:
@@ -190,7 +221,7 @@ class LogoutView(View):
 
 class AudioUploadView(View):
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         tokens = get_tokens(request)
         user = get_user(request)
 
@@ -211,7 +242,7 @@ class AudioUploadView(View):
 
         return render(request, 'page.html', context)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user = get_user(request)
 
         if not user:
@@ -247,7 +278,7 @@ class AudioUploadView(View):
 
 class EditTranscriptionView(View):
 
-    def get(self, request, transcription_id, *args, **kwargs):
+    def get(self, request, transcription_id):
         tokens = get_tokens(request)
         user = get_user(request)
 
@@ -271,7 +302,7 @@ class EditTranscriptionView(View):
 
         return render(request, 'page.html', context)
 
-    def post(self, request, transcription_id, *args, **kwargs):
+    def post(self, request, transcription_id):
         user = get_user(request)
 
         if not user or not Transcription.objects.filter(id=transcription_id).exists():
@@ -290,7 +321,7 @@ class EditTranscriptionView(View):
 
 class DeleteTranscriptionView(View):
 
-    def get(self, request, transcription_id, *args, **kwargs):
+    def get(self, request, transcription_id):
         user = get_user(request)
 
         if not user or not Transcription.objects.filter(id=transcription_id).exists():

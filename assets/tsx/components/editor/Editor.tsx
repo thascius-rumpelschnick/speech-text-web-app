@@ -18,7 +18,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import Button from "react-bootstrap/Button";
 import { Transcription } from "../../interfaces/ContainerProps";
-import { Pencil, Book, CloudArrowUp } from "../icons/Icons";
+import { Pencil, Book, CloudArrowUp, Floppy } from "../icons/Icons";
 import TreeViewPlugin from "./plugins/TreeViewPlugin";
 import MyCustomAutoFocusPlugin from "./plugins/MyCustomAutoFocusPlugin";
 import editorConfig from "./editorConfig";
@@ -41,6 +41,7 @@ const Editor = ({ transcription, updateTranscription, isDebug = false }: EditorP
     const [ transcriptionEdit, setTranscriptionEdit ] = useState(transcription);
     const [ contentAsHtml, setContentAsHtml ] = useState<string | undefined>(transcription.contentAsHtml);
     const [ isEditable, setIsEditable ] = useState(editorConfig.editable);
+
     const editorRef = useRef<LexicalEditor>(null);
 
     const updateEditorState = () => {
@@ -128,7 +129,7 @@ const Editor = ({ transcription, updateTranscription, isDebug = false }: EditorP
                 </Button>
 
                 <Button variant="primary" className="ms-3" onClick={handleSave}>
-                    <CloudArrowUp /> <span className="ms-1">Save</span>
+                    <Floppy /> <span className="ms-1">Save</span>
                 </Button>
             </div>
         </>

@@ -12,21 +12,23 @@ const NavigationBar = ({ user }: NavigationBarProps) => {
             <Container fluid>
                 <Navbar.Brand href="/">Speech-To-Text</Navbar.Brand>
 
-                <span className="w-100 text-end me-3">{ user?.name ? `Hello ${ user.name }!` : "Welcome!" }</span>
-
-                { user ? (
+                {user ? (
                     <>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
                         <Navbar.Collapse id="basic-navbar-nav">
+                            <span className="w-100 me-3 text-end">{`Hello ${user.name}!`}</span>
                             <Nav className="ms-auto">
                                 <Nav.Link href="/">Dashboard</Nav.Link>
+                                <Nav.Link href="/upload">Add</Nav.Link>
                                 <Nav.Link href="/settings">Settings</Nav.Link>
                                 <Nav.Link href="/logout">Logout</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </>
-                ) : null }
+                ) : (
+                    <span className="text-end">Welcome!</span>
+                )}
             </Container>
         </Navbar>
     );

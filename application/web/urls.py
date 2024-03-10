@@ -1,6 +1,7 @@
 from django.urls import path
 
-from application.web.views import AudioUploadView, EditTranscriptionView, IndexView, AboutView, RegisterView, \
+from application.web.views import AudioUploadView, DeleteUserView, EditTranscriptionView, IndexView, AboutView, \
+    RegisterView, \
     LoginView, LogoutView, DeleteTranscriptionView, SettingsView
 
 urlpatterns = [
@@ -13,9 +14,10 @@ urlpatterns = [
     path('register', RegisterView.as_view(), name='register'),
     path('login', LoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),
+    path('delete-user', DeleteUserView.as_view(), name='delete-user'),
 
     # Transcription Pages
     path('upload', AudioUploadView.as_view(), name='upload'),
     path('edit/<int:transcription_id>', EditTranscriptionView.as_view(), name='edit'),
-    path('delete/<int:transcription_id>', DeleteTranscriptionView.as_view(), name='remove'),
+    path('delete/<int:transcription_id>', DeleteTranscriptionView.as_view(), name='delete'),
 ]

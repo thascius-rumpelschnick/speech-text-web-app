@@ -10,3 +10,8 @@ export interface Transcription {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface Setting {
+        language: string;
+        model: string;
+}
