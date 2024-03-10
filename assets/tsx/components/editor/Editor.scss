@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  background: #eee;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular",
     sans-serif;
   font-weight: 500;
@@ -31,11 +30,6 @@ body {
   list-style-type: none;
 }
 
-h1 {
-  font-size: 24px;
-  color: #333;
-}
-
 .ltr {
   text-align: left;
 }
@@ -47,15 +41,13 @@ h1 {
 .editor-container {
   background: #fff;
   margin: 20px auto 20px auto;
-  border-radius: 2px;
+  border-radius: 10px;
   max-width: 600px;
   color: #000;
   position: relative;
   line-height: 20px;
   font-weight: 400;
   text-align: left;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 
 .editor-input {

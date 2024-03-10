@@ -1,13 +1,12 @@
-import { EmojiNode } from "./nodes/EmojiNode";
 import ExampleTheme from "./themes/ExampleTheme";
 
 const editorConfig = {
-    namespace: "example",
+    namespace: "edit-transcription",
     theme: ExampleTheme,
+    editable: false,
     onError(error: Error) {
         throw error;
     },
-    nodes: [ EmojiNode ]
 };
 
 export default editorConfig;

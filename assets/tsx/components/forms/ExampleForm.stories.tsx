@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { AppContextProvider } from "../../hooks/AppContext";
+import { StorybookContextProvider } from "../../hooks/AppContext";
 import ExampleForm from "./ExampleForm";
 
 const meta = {
@@ -9,9 +9,9 @@ const meta = {
     decorators: [
         (Story, context) => (
             <div style={{ minHeight: "500px" }}>
-                <AppContextProvider context={context.args}>
+                <StorybookContextProvider storybookContext={context.args}>
                     <Story />
-                </AppContextProvider>
+                </StorybookContextProvider>
             </div>
         ),
     ],

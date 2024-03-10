@@ -4,7 +4,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: speech_text_nginx
+    container_name: speech_text_nginx_prod
     restart: "no"
     working_dir: /django_application
     ports:
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/python/Dockerfile
-    container_name: speech_text_python
+    container_name: speech_text_python_prod
     restart: "no"
     working_dir: /django_application
     ports:
@@ -43,18 +43,28 @@ services:
 
   postgres:
     image: postgres:latest
-    container_name: speech_text_postgresql
+    container_name: speech_text_postgresql_prod
     restart: "no"
     ports:
       - "5432:5432"
     volumes:
       - speech_text_prod_postgres-db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: speech_text
+    env_file:
+      - .env
     networks:
       - speech_text_prod_network
+
+  node:
+    build: ./docker/node
+    container_name: speech_text_node_prod
+    working_dir: /django_application
+    restart: "no"
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./assets:/django_application:cached
+    command: "npm i && npm run build-dev"
+    # command: tail -f /dev/null
 
 volumes:
   speech_text_prod_postgres-db:

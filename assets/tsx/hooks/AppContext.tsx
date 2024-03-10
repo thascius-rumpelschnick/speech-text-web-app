@@ -1,9 +1,19 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import { User } from "../interfaces/ContainerProps";
 
-export interface AppContext<M extends object> {
+export interface ContextData<M extends object> {
     user: User | null;
     model: M;
+}
+
+export interface AppContextData<M extends object> {
+    context: ContextData<M>;
+    setContext: (
+        context: (context: ContextData<M>) => {
+            model: M;
+            user: User | null;
+        },
+    ) => void;
 }
 
 const content = document.getElementById("view-model")?.textContent;
@@ -11,9 +21,34 @@ const vm = JSON.parse(content ?? "{}");
 
 export const AppContext = createContext(vm);
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line react/prop-types
-export const AppContextProvider = ({ context, children }) => (
-    <AppContext.Provider value={context}>{children}</AppContext.Provider>
-);
+interface AppContextProviderProps {
+    children: React.ReactNode;
+}
+
+export const AppContextProvider = ({ children }: AppContextProviderProps) => {
+    const [ context, setContext ] = useState<unknown>(vm);
+
+    return (
+        <AppContext.Provider value={{ context, setContext }}>
+            {children}
+        </AppContext.Provider>
+    );
+};
+
+interface StorybookContextProviderProps {
+    storybookContext: unknown;
+    children: React.ReactNode;
+}
+
+export const StorybookContextProvider = ({
+    storybookContext,
+    children,
+}: StorybookContextProviderProps) => {
+    const [ context, setContext ] = useState<unknown>(storybookContext);
+
+    return (
+        <AppContext.Provider value={{ context, setContext }}>
+            {children}
+        </AppContext.Provider>
+    );
+};

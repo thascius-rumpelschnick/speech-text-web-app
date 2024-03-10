@@ -19,6 +19,6 @@ export default class Logger {
     }
 
     private static format(message: string): string {
-        return `[LOGGER] ${ message.endsWith(":") ? message : `${ message }:` }`;
+        return `[LOGGER] ${message.endsWith(":") ? message : `${message}:`}`;
     }
 }

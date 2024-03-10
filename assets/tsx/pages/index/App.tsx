@@ -2,26 +2,36 @@ import "./App.scss";
 
 import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
-
+import Footer from "../../components/Footer";
 import NavigationBar from "../../components/NavigationBar";
-import { AppContext } from "../../hooks/AppContext";
+import { AppContextData, AppContext } from "../../hooks/AppContext";
+import { Transcription } from "../../interfaces/ContainerProps";
 import Dashboard from "./component/Dashboard";
 import IndexPage from "./component/IndexPage";
 
 export interface ViewModel {
-    title: string;
+    transcriptions: Transcription[];
 }
 
 const App = () => {
-    const context = useContext<AppContext<ViewModel>>(AppContext);
+    console.info("INDEX PAGE");
+
+    const { context } = useContext<AppContextData<ViewModel>>(AppContext);
     const { user, model } = context;
 
     return (
         <Container fluid="md">
             <header>
-                <NavigationBar user={user} />
+                <NavigationBar user={ user } />
             </header>
-            <main>{user ? <Dashboard /> : <IndexPage {...model} />}</main>
+
+            <main>
+                { user != null ? <Dashboard { ...model } /> : <IndexPage /> }
+            </main>
+
+            <footer>
+                <Footer user={ user } />
+            </footer>
         </Container>
     );
 };

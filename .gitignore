@@ -28,5 +28,7 @@ __pycache__
 venv
 
 ### Project ###
-.env
 db.sqlite3
+.env
+model/
+tmp/

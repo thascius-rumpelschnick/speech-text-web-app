@@ -2,16 +2,18 @@
 
 {% load static %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block style %}
-    <link rel="stylesheet" href="{% static 'dist/'|add:element_id|add:'.css' %}">
+  <link rel="stylesheet" href="{% static 'dist/'|add:element_id|add:'.css' %}">
 {% endblock %}
 
 {% block content %}
-    {{ view_model | json_script:'view-model' }}
+  {{ view_model | json_script:'view-model' }}
 
-    <div id="{{ element_id }}"></div>
+  <div id="{{ element_id }}"></div>
 
-    <script src="{% static 'dist/vendors.js' %}"></script>
-    <script src="{% static 'dist/runtime.js' %}"></script>
-    <script src="{% static 'dist/'|add:element_id|add:'.js' %}"></script>
+  <script src="{% static 'dist/vendors.js' %}"></script>
+  <script src="{% static 'dist/runtime.js' %}"></script>
+  <script src="{% static 'dist/'|add:element_id|add:'.js' %}"></script>
 {% endblock %}

@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [environment['ALLOWED_HOSTS']]
 
 if DEBUG:
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+    INTERNAL_IPS = [ip[: ip.rfind('.')] + '.1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 
 # Application definition
 
@@ -82,10 +82,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': environment['DB_NAME'],
+        'USER': environment['DB_USER'],
+        'PASSWORD': environment['DB_PASS'],
+        'HOST': environment['DB_HOST'],
+        'PORT': environment['DB_PORT'],
     }
 }
 
@@ -127,7 +138,11 @@ STATICFILES_DIRS = [
     BASE_DIR / 'assets/static',
 ]
 
+STATIC_ROOT = environment['STATIC_ROOT']
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GOOGLE_APPLICATION_CREDENTIALS = environment['GOOGLE_APPLICATION_CREDENTIALS']
