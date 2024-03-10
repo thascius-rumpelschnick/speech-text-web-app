@@ -15,18 +15,11 @@ export interface ViewModel {
 }
 
 const App = () => {
-    console.info("OVERVIEW PAGE");
+    console.info("ABOUT PAGE");
 
-    const { context, setContext } =
+    const { context } =
         useContext<AppContextData<object>>(AppContext);
     const { user } = context;
-
-    const handleClick = () => {
-        setContext((context) => ({
-            ...context,
-            user: { id: 1, name: "Bar" },
-        }));
-    };
 
     return (
         <Container fluid="md">
@@ -34,11 +27,18 @@ const App = () => {
                 <NavigationBar user={ user } />
             </header>
 
-            <main onClick={ handleClick }>
+            <main>
                 <Container>
                     <Row>
                         <Col>
                             <h1>About</h1>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <p>
+                               More information here: <a target="_blank" href="https://github.com/thascius-rumpelschnick/speech-text-web-app/blob/main/README.md" rel="noreferrer"></a>
+                            </p>
                         </Col>
                     </Row>
                 </Container>
