@@ -21,7 +21,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN adduser -u 5678 --system --group --no-create-home --disabled-password --gecos "" ${USER} && chown -R ${USER} /${WORKDIR} && chown -R ${USER} /${NONEXISTENT}
+RUN adduser -u 5678 --system --group --no-create-home --disabled-password --gecos "" ${USER} && chown -cR ${USER}:${USER} /${WORKDIR} && chown -cR ${USER}:${USER} /${NONEXISTENT}
 USER ${USER}
 
 #RUN mkdir -p /vol/web/media
