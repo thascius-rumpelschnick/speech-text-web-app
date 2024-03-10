@@ -71,7 +71,7 @@ const App = () => {
             </main>
 
             <footer>
-                <Footer />
+                <Footer user={ user } />
             </footer>
 
             <LoadingModal show={ isLoading } />

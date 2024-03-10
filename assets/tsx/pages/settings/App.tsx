@@ -44,7 +44,7 @@ const App = () => {
             </main>
 
             <footer>
-                <Footer />
+                <Footer user={ user } />
             </footer>
         </Container>
     );

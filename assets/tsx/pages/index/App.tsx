@@ -5,15 +5,9 @@ import Container from "react-bootstrap/Container";
 import Footer from "../../components/Footer";
 import NavigationBar from "../../components/NavigationBar";
 import { AppContextData, AppContext } from "../../hooks/AppContext";
+import { Transcription } from "../../interfaces/ContainerProps";
 import Dashboard from "./component/Dashboard";
 import IndexPage from "./component/IndexPage";
-
-export interface Transcription {
-    id: number;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-}
 
 export interface ViewModel {
     transcriptions: Transcription[];
@@ -22,7 +16,7 @@ export interface ViewModel {
 const App = () => {
     console.info("INDEX PAGE");
 
-    const { context, setContext } = useContext<AppContextData<ViewModel>>(AppContext);
+    const { context } = useContext<AppContextData<ViewModel>>(AppContext);
     const { user, model } = context;
 
     return (
@@ -36,7 +30,7 @@ const App = () => {
             </main>
 
             <footer>
-                <Footer />
+                <Footer user={ user } />
             </footer>
         </Container>
     );

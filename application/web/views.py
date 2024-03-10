@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from django.contrib.auth.models import User
@@ -35,12 +36,17 @@ def get_tokens(request):
 
 
 def convert_from_entity(entity: Transcription):
-    return {
+    transcription = {
         'id': entity.id,
         'content': entity.content,
         'createdAt': entity.created_at,
         'updatedAt': entity.updated_at
     }
+
+    if entity.content_as_html is not None:
+        transcription.update({'contentAsHtml': entity.content_as_html})
+
+    return transcription
 
 
 # Main pages
@@ -265,31 +271,20 @@ class EditTranscriptionView(View):
 
         return render(request, 'page.html', context)
 
-    def patch(self, request, transcription_id, *args, **kwargs):
-        tokens = get_tokens(request)
+    def post(self, request, transcription_id, *args, **kwargs):
         user = get_user(request)
 
-        if not user:
+        if not user or not Transcription.objects.filter(id=transcription_id).exists():
             return redirect('index')
 
         entity = Transcription.objects.get(id=transcription_id)
-
-        model = {'transcription': entity}
-
-        context = {
-            'title': 'Text To Speech Web App - Edit',
-            'element_id': 'edit',
-            'contains_form': True,
-            'view_model': {
-                'tokens': tokens,
-                'user': user,
-                'model': model
-            }
-        }
+        entity.content = request.POST.get('content')
+        entity.content_as_html = request.POST.get('contentAsHtml')
+        entity.save()
 
         return JsonResponse(
             status=200,
-            data={'transcription': transcription_id}
+            data={'transcription': convert_from_entity(entity)}
         )
 
 

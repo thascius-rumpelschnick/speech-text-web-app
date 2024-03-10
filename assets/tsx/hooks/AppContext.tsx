@@ -11,7 +11,7 @@ export interface AppContextData<M extends object> {
     setContext: (
         context: (context: ContextData<M>) => {
             model: M;
-            user: User;
+            user: User | null;
         },
     ) => void;
 }

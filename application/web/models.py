@@ -8,6 +8,7 @@ class Transcription(models.Model):
 
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     content = models.TextField()
+    content_as_html = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
