@@ -6,4 +6,4 @@ WORKDIR "/django_application"
 RUN npm install -g node-sass \
     && npm install -g typescript
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["npm", "run", "build-prod"]
