@@ -31,7 +31,7 @@ const App = () => {
         }
 
         if (data.status && data.status >= 400) {
-            console.error("DATA:", data);
+            console.error("ERROR:", data.status, data.statusText);
 
             setIsError(true);
         }
