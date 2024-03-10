@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Speech To Text Web App",
   "keywords": [],
-  "author": "Nakato Musisi, Florian Zapf",
+  "author": "Florian Zapf",
   "license": "ISC",
   "scripts": {
     "clean": "rm -rf ./static/dist",

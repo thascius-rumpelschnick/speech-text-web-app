@@ -5,47 +5,49 @@ import { Row, Col } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Footer from "../../components/Footer";
 import NavigationBar from "../../components/NavigationBar";
-import {
-    AppContext,
-    AppContextData,
-} from "../../hooks/AppContext";
+import { AppContext, AppContextData } from "../../hooks/AppContext";
 
 export interface ViewModel {
     title: string;
 }
 
 const App = () => {
-    console.info("OVERVIEW PAGE");
+    console.info("ABOUT PAGE");
 
-    const { context, setContext } =
-        useContext<AppContextData<object>>(AppContext);
+    const { context } = useContext<AppContextData<object>>(AppContext);
     const { user } = context;
-
-    const handleClick = () => {
-        setContext((context) => ({
-            ...context,
-            user: { id: 1, name: "Bar" },
-        }));
-    };
 
     return (
         <Container fluid="md">
             <header>
-                <NavigationBar user={ user } />
+                <NavigationBar user={user} />
             </header>
 
-            <main onClick={ handleClick }>
+            <main>
                 <Container>
                     <Row>
                         <Col>
                             <h1>About</h1>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            <p>
+                                <a
+                                    target="_blank"
+                                    href="https://github.com/thascius-rumpelschnick/speech-text-web-app/blob/main/README.md"
+                                    rel="noreferrer"
+                                >
+                                    More information here
+                                </a>
+                            </p>
+                        </Col>
+                    </Row>
                 </Container>
             </main>
 
             <footer>
-                <Footer user={ user } />
+                <Footer user={user} />
             </footer>
         </Container>
     );
