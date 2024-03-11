@@ -28,7 +28,7 @@ $ docker-compose run --rm node bash -c "npm i && npm run build-dev"
 #### 3. Load Vosk model
 
 ```bash
-$ docker-compose run --rm python bash -c "python manage.py load_vosk_model"
+$ docker-compose run --rm python bash -c "python manage.py load_vosk_model -m vosk-model-small-de-0.15"
 ```
 
 #### 4. Start database and make migrations
