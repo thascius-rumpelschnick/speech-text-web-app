@@ -33,13 +33,15 @@ const App = () => {
                     <Row>
                         <Col>
                             <p>
+                                Find more information{" "}
                                 <a
                                     target="_blank"
                                     href="https://github.com/thascius-rumpelschnick/speech-text-web-app/blob/main/README.md"
                                     rel="noreferrer"
                                 >
-                                    More information here
+                                    here
                                 </a>
+                                .
                             </p>
                         </Col>
                     </Row>
