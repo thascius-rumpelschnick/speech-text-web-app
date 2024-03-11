@@ -2,20 +2,20 @@ version: "3.9"
 
 services:
 
-  nginx:
-    image: nginx:latest
-    container_name: speech_text_nginx_prod
-    restart: "no"
-    working_dir: /django_application
-    ports:
-      - "80:80"
-    volumes:
-      - ./assets/static:/django_application:cached
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
-    depends_on:
-      - python
-    networks:
-      - speech_text_prod_network
+#  nginx:
+#    image: nginx:latest
+#    container_name: speech_text_nginx_prod
+#    restart: "no"
+#    working_dir: /django_application
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./assets/static:/django_application:cached
+#      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
+#    depends_on:
+#      - python
+#    networks:
+#      - speech_text_prod_network
 
   python:
     build:
@@ -29,13 +29,10 @@ services:
     volumes:
       - .:/django_application
     command: gunicorn --workers=1 --bind 0.0.0.0:8000 config.wsgi:application
-    #    command: tail -f /dev/null
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
     env_file:
       - .env
-    #    links:
-    #      - postgres
     depends_on:
       - postgres
     networks:

@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = environment['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = environment['DEBUG']
+DEBUG = environment.get('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = [environment['ALLOWED_HOSTS']]
 
@@ -145,4 +145,4 @@ STATIC_ROOT = environment['STATIC_ROOT']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GOOGLE_APPLICATION_CREDENTIALS = environment['GOOGLE_APPLICATION_CREDENTIALS']
+GOOGLE_APPLICATION_CREDENTIALS = environment.get('GOOGLE_APPLICATION_CREDENTIALS')
