@@ -126,19 +126,15 @@ class AboutView(View):
     def get(self, request):
         tokens = get_tokens(request)
         user = get_user(request)
-        model = {'title': 'Django with Webpack and Babel'}
-
-        if user is None:
-            return redirect('index')
 
         context = {
             'title': 'Text To Speech Web App - About',
             'element_id': 'about',
-            'contains_form': True,
+            'contains_form': False,
             'view_model': {
                 'tokens': tokens,
                 'user': user,
-                'model': model
+                'model': None
             }
         }
 

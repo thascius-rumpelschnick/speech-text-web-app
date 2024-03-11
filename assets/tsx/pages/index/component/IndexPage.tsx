@@ -10,15 +10,11 @@ const IndexPage = () => {
         <Container>
             <Row className="mb-3 justify-content-center">
                 <Col md={6}>
-                    <h1>Index Page</h1>
+                    <h1>Speech-To-Text</h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-                        ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-                        dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor
-                        sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                        invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                        justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-                        ipsum dolor sit amet.
+                        This is a simple web application that allows you to record audio with your web browser and let it
+                        be transcribed as text. The transcribed text can then be edited. All your transcriptions are stored and can
+                        be viewed, edited or deleted at any time. You can also download the transcriptions as a PDF file (However, not yet implemented!).
                     </p>
                 </Col>
             </Row>
@@ -31,9 +27,13 @@ const IndexPage = () => {
             </Row>
 
             <Row className="mb-3 justify-content-center">
-                <Col md={6}>
+                <Col md={ 6 }>
                     <h2>Else register:</h2>
                     <RegisterForm />
+                    <p className="mt-3">
+                        Your username has to be unique and has to have a length of at least 3 up to 12 characters.
+                        Your password has to have a length of at least 8 characters.
+                    </p>
                 </Col>
             </Row>
         </Container>
