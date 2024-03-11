@@ -49,6 +49,7 @@ $ docker-compose up -d postgres python
 ```bash
 $ docker-compose down
 ```
+You can now access the web application at [http://localhost:8000](http://localhost:8000).
 
 After you are done with steps 1 to 4 for the first time, you just need to run steps 5 & 6 from then on.
 
