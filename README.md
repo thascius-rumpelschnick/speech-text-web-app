@@ -9,9 +9,11 @@ The app is built with Python / Django and React using several libraries.
 
 ## Run locally with Docker
 
+You may use sudo before commands if you are not in the docker group.
+
 #### 1. Clone the repository and cd into directory
 
-```bash
+```sh
 $ git clone https://github.com/thascius-rumpelschnick/speech-text-web-app.git
 $ cd speech-text-web-app
 ```
@@ -22,31 +24,31 @@ Or see [here](./docs/todo.md) for a starter and search for Dev Environment.
 
 #### 2. Build frontend assets
 
-```bash
-$ docker-compose run --rm node bash -c "npm i && npm run build-dev"
+```sh
+$ docker-compose run --rm node sh -c "npm i && npm run build-dev"
 ```
 #### 3. Load Vosk model
 
-```bash
-$ docker-compose run --rm python bash -c "python manage.py load_vosk_model -m vosk-model-small-de-0.15"
+```sh
+$ docker-compose run --rm python sh -c "python manage.py load_vosk_model -m vosk-model-small-de-0.15"
 ```
 
 #### 4. Start database and make migrations
 
-```bash
+```sh
 $ docker-compose up -d postgres
-$ docker-compose run --rm python bash -c "python manage.py migrate"
+$ docker-compose run --rm python sh -c "python manage.py migrate"
 ```
 
 #### 5. Start application as whole
 
-```bash
+```sh
 $ docker-compose up -d postgres python
 ```
 
 #### 6. Stop application
 
-```bash
+```sh
 $ docker-compose down
 ```
 You can now access the web application at [http://localhost:8000](http://localhost:8000).
