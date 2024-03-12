@@ -4,8 +4,8 @@ assets/node_modules
 assets/static
 .gitattributes
 .gitignore
-docker-compose.yml
-docker-compose.production.yml
+compose.yml
+compose.prod.yml
 .env
 .env.example
 README.md
