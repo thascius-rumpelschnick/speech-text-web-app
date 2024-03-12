@@ -18,7 +18,7 @@ interface ViewModel {
 }
 
 const App = () => {
-    console.info("EDIT PAGE");
+    // console.info("EDIT PAGE");
 
     const { data, post } = useApiRequest();
     const { context, setContext } = useContext<AppContextData<ViewModel>>(AppContext);
@@ -46,7 +46,7 @@ const App = () => {
         }
         
         if (data.status && data.status >= 400) {
-            console.error("ERROR:", data.status, data.statusText);
+            // console.error("ERROR:", data.status, data.statusText);
 
             setIsError(true);
         }

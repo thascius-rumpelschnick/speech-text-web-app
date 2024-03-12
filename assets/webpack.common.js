@@ -21,7 +21,6 @@ const config = {
         path: path.resolve(__dirname, "static/dist"),
         filename: "[name].js"
     },
-    devtool: "source-map",
     module: {
         rules: [
             {
@@ -61,7 +60,7 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new LodashModuleReplacementPlugin,
+        new LodashModuleReplacementPlugin(),
         new MiniCssExtractPlugin(),
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/)
     ],

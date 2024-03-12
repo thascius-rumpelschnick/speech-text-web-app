@@ -28,7 +28,7 @@ const LoginForm = () => {
     };
 
     useEffect(() => {
-        console.log(data);
+        // console.log(data);
 
         if (data.status === 200) {
             return redirect("/");
@@ -36,7 +36,7 @@ const LoginForm = () => {
     }, [ data ]);
     
     useEffect(() => {
-        console.error(touchedFields);
+        // console.error(touchedFields);
         setIsValidated(!_.isEmpty(touchedFields));
     }, [ touchedFields ]);
 

@@ -33,7 +33,7 @@ const SettingForm = ({ language, model }: Setting) => {
     };
 
     useEffect(() => {
-        console.log(data);
+        // console.log(data);
 
         if (data.status === 200) {
             return redirect("/");
