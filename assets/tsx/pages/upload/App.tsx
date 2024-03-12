@@ -14,7 +14,7 @@ import LoadingModal from "./component/LoadingModal";
 
 
 const App = () => {
-    console.info("UPLOAD PAGE");
+    // console.info("UPLOAD PAGE");
 
     const { context } = useContext<AppContextData<object>>(AppContext);
     const { user } = context;
@@ -31,7 +31,7 @@ const App = () => {
         }
 
         if (data.status && data.status >= 400) {
-            console.error("ERROR:", data.status, data.statusText);
+            // console.error("ERROR:", data.status, data.statusText);
 
             setIsError(true);
         }

@@ -274,10 +274,7 @@ const RecordingsList = ({ audio, blob, uploadAudio }: RecordingsListProps) => {
                                     <button
                                         className="delete-button"
                                         title="Upload this audio"
-                                        onClick={() => {
-                                            console.log(record.audio);
-                                            uploadAudio(record.key, record.blob);
-                                        }}
+                                        onClick={() => uploadAudio(record.key, record.blob)}
                                     >
                                         <CloudArrowUp />
                                     </button>

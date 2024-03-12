@@ -14,7 +14,7 @@ export interface ViewModel {
 }
 
 const App = () => {
-    console.info("SETTINGS PAGE");
+    // console.info("SETTINGS PAGE");
 
     const { context } = useContext<AppContextData<ViewModel>>(AppContext);
     const { user, model } = context;
