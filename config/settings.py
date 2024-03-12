@@ -9,13 +9,14 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 import socket
 
 from dotenv import dotenv_values
 
-environment = dotenv_values('.env')
+application_environment = os.getenv('APPLICATION_ENV', 'production')
+environment = dotenv_values('.env' if application_environment == 'production' else '.env.dev')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

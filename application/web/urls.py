@@ -1,6 +1,7 @@
 from django.urls import path
 
-from application.web.views import AudioUploadView, DeleteUserView, EditTranscriptionView, IndexView, AboutView, \
+from application.web.views import AudioUploadView, DeleteUserView, DownloadTranscriptionView, EditTranscriptionView, \
+    IndexView, AboutView, \
     RegisterView, \
     LoginView, LogoutView, DeleteTranscriptionView, SettingsView
 
@@ -20,4 +21,5 @@ urlpatterns = [
     path('upload', AudioUploadView.as_view(), name='upload'),
     path('edit/<int:transcription_id>', EditTranscriptionView.as_view(), name='edit'),
     path('delete/<int:transcription_id>', DeleteTranscriptionView.as_view(), name='delete'),
+    path('download/<int:transcription_id>', DownloadTranscriptionView.as_view(), name='download'),
 ]

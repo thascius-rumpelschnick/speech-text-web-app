@@ -17,7 +17,12 @@
 
 ## Dev Environment
 
+Env File: `.env.dev`
+
 ```bash
+    # Application Environment
+    APPLICATION_ENV=development
+    
     # Application
     SECRET_KEY=django-insecure-36l34bzn8j5r4@^5pabbfcnev+*1ue*p2$!@v$+reu1@a898%!
     DEBUG=TRUE
@@ -169,6 +174,34 @@ wheel==0.42.0
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
   }
+}
+```
+
+### Nginx
+
+```
+server {
+    listen         80;
+    listen         [::]:80;
+    server_name    example.com www.example.com;
+
+    access_log /var/log/nginx/speech-text-web-app.log;
+
+    root           /var/www/public/;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+   location /static {
+        alias       /var/www/public/;
+    }
+
+    gzip             on;
+    gzip_comp_level  3;
+    gzip_types       text/plain text/css application/javascript image/*;
 }
 ```
 

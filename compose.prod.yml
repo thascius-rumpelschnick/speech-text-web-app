@@ -2,20 +2,21 @@ version: "3.9"
 
 services:
 
-#  nginx:
-#    image: nginx:latest
-#    container_name: speech_text_nginx_prod
-#    restart: "no"
-#    working_dir: /django_application
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - ./assets/static:/django_application:cached
-#      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
-#    depends_on:
-#      - python
-#    networks:
-#      - speech_text_prod_network
+  nginx:
+    image: nginx:latest
+    container_name: speech_text_nginx_prod
+    restart: "no"
+    working_dir: /django_application
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./public:/var/www/public:cached
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
+    depends_on:
+      - python
+    networks:
+      - speech_text_prod_network
 
   python:
     build:
@@ -25,10 +26,10 @@ services:
     restart: "no"
     working_dir: /django_application
     ports:
-      - "8000:8000"
+      - "9876:8000"
     volumes:
       - .:/django_application
-    command: gunicorn --workers=1 --bind 0.0.0.0:8000 config.wsgi:application
+    command: ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput --clear && gunicorn --workers=4 --bind 0.0.0.0:8000 config.wsgi:application"]
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
     env_file:
@@ -43,7 +44,7 @@ services:
     container_name: speech_text_postgresql_prod
     restart: "no"
     ports:
-      - "5432:5432"
+      - "9875:5432"
     volumes:
       - speech_text_prod_postgres-db:/var/lib/postgresql/data
     env_file:
@@ -57,10 +58,10 @@ services:
     working_dir: /django_application
     restart: "no"
     ports:
-      - "6006:6006"
+      - "9874:6006"
     volumes:
       - ./assets:/django_application:cached
-    command: "npm i && npm run build-dev"
+    command: ["sh", "-c", "npm i && npm run build-dev"]
     # command: tail -f /dev/null
 
 volumes:

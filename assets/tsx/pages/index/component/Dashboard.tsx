@@ -51,7 +51,7 @@ const Dashboard = ({ transcriptions }: ViewModel) => {
                                 <Card.Link href={`edit/${transcription.id}`}>
                                     <Pencil />
                                 </Card.Link>
-                                <Card.Link href="#">
+                                <Card.Link href={`download/${transcription.id}`}>
                                     <FileTypePDF />
                                 </Card.Link>
                                 <Card.Link

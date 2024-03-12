@@ -2,10 +2,13 @@ docker
 docs
 assets/node_modules
 assets/static
+public
 .gitattributes
 .gitignore
-docker-compose.yml
-docker-compose.production.yml
+compose.yml
+compose.prod.yml
 .env
+.env.dev
 .env.example
 README.md
+.DS_Store

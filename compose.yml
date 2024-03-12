@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/python/Dockerfile
-    container_name: speech_text_python
+    container_name: speech_text_python_dev
     restart: "no"
     working_dir: /django_application
     ports:
@@ -17,7 +17,7 @@ services:
     # command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:8000 --nothreading --noreload"]
     command: python manage.py runserver 0.0.0.0:8000
     env_file:
-      - .env
+      - .env.dev
     depends_on:
       - postgres
     networks:
@@ -25,14 +25,14 @@ services:
 
   postgres:
     image: postgres:latest
-    container_name: speech_text_postgresql
+    container_name: speech_text_postgresql_dev
     restart: "no"
     ports:
       - "5432:5432"
     volumes:
       - speech_text_dev_postgres-db:/var/lib/postgresql/data
     env_file:
-      - .env
+      - .env.dev
     #    environment:
     #      POSTGRES_USER: user
     #      POSTGRES_PASSWORD: password
