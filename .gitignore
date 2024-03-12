@@ -30,5 +30,7 @@ venv
 ### Project ###
 db.sqlite3
 .env
+.env.dev
 model/
 tmp/
+public/

@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib.auth.models import User
-from django.http import HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.shortcuts import render, redirect
@@ -327,3 +327,32 @@ class DeleteTranscriptionView(View):
         entity.delete()
 
         return redirect('index')
+
+class DownloadTranscriptionView(View):
+
+    def get(self, request, transcription_id):
+        from xhtml2pdf import pisa
+
+        user = get_user(request)
+
+        if not user or not Transcription.objects.filter(id=transcription_id, user_id=user['id']).exists():
+            return redirect('index')
+
+        entity = Transcription.objects.get(id=transcription_id)
+        content_as_html = entity.content_as_html
+
+        if not content_as_html:
+            content_as_html = f'<p>{entity.content}</p>'
+
+        username = user['name']
+        file_name = f'{username}_transcription_{entity.id}.pdf'
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+        pisa_status = pisa.CreatePDF(content_as_html, dest=response)
+
+        if pisa_status.err:
+            return HttpResponse(f'We had some errors with code {pisa_status.err} <pre>{content_as_html}</pre>')
+
+        return response
