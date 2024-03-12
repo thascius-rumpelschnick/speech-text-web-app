@@ -17,10 +17,10 @@ You may use sudo before commands if you are not in the docker group.
 $ git clone https://github.com/thascius-rumpelschnick/speech-text-web-app.git
 $ cd speech-text-web-app
 ```
-#### 2. Add .env file
+#### 2. Add .env.dev file
 
-Look at the .env.example file and create a .env file with the same variables.
-Or see [here](./docs/todo.md) for a starter and search for Dev Environment.
+Look at the `.env.example` file and create a `.env.dev` file with the same variables.
+Or see [here](./docs/todo.md) for a starter and search for heading Dev Environment.
 
 #### 2. Build frontend assets
 
