@@ -1,6 +1,7 @@
 ### IDEs ###
 .idea
 .vscode
+.run
 
 ### MacOS ###
 .DS_Store

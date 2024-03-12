@@ -9,7 +9,7 @@ The app is built with Python / Django and React using several libraries.
 
 ## Run locally with Docker
 
-You may use sudo before commands if you are not in the docker group.
+You might use sudo before commands if you are not in the docker group.
 
 #### 1. Clone the repository and cd into directory
 
