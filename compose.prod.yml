@@ -61,7 +61,7 @@ services:
       - "9874:6006"
     volumes:
       - ./assets:/django_application:cached
-    command: ["sh", "-c", "npm i && npm run build-dev"]
+    command: ["sh", "-c", "npm i && npm run build-prod"]
     # command: tail -f /dev/null
 
 volumes:

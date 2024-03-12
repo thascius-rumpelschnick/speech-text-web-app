@@ -140,7 +140,7 @@ xhtml2pdf==0.2.15
 
 ```json
 {
-   "dependencies": {
+  "dependencies": {
     "@lexical/react": "^0.13.1",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
@@ -153,11 +153,11 @@ xhtml2pdf==0.2.15
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.50.1"
+    "react-hook-form": "^7.51.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
@@ -169,9 +169,9 @@ xhtml2pdf==0.2.15
     "@storybook/react": "^7.6.17",
     "@storybook/react-webpack5": "^7.6.17",
     "@storybook/testing-library": "^0.2.2",
-    "@stylistic/eslint-plugin": "^1.6.2",
-    "@types/react": "^18.2.57",
-    "@types/react-dom": "^18.2.19",
+    "@stylistic/eslint-plugin": "^1.6.3",
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.21",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "babel-jest": "^29.7.0",
@@ -179,25 +179,27 @@ xhtml2pdf==0.2.15
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.10.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react": "^7.34.0",
     "file-loader": "^6.2.0",
     "globals": "^14.0.0",
     "jest": "^29.7.0",
     "lodash-webpack-plugin": "^0.11.6",
-    "mini-css-extract-plugin": "^2.8.0",
+    "mini-css-extract-plugin": "^2.8.1",
     "mocha": "^10.3.0",
     "node-sass": "^9.0.0",
     "prettier": "^3.2.5",
     "sass-loader": "^14.1.1",
     "storybook": "^7.6.17",
     "style-loader": "^3.3.4",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.90.3",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0"
   }
 }
 ```
