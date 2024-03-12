@@ -5,7 +5,7 @@
 - [x] WYSIWYG
 - [x] User authentication
 - [x] Text to Speech
-- [ ] PDF
+- [x] PDF
 
 ## Styles
 
