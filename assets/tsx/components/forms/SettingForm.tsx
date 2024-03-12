@@ -47,7 +47,7 @@ const SettingForm = ({ language, model }: Setting) => {
                 <Form.Check
                     className="mb-2"
                     type="radio"
-                    label="German"
+                    label="German (Default)"
                     id="german"
                     value={ Language.GERMAN }
                     { ...register("language") }

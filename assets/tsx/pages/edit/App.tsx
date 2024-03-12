@@ -90,7 +90,7 @@ const App = () => {
 
                     <Row>
                         <Col>
-                            <Editor transcription={transcription} updateTranscription={updateTranscription} />
+                            <Editor transcription={transcription} updateTranscription={updateTranscription} isDebug />
                         </Col>
                     </Row>
                 </Container>

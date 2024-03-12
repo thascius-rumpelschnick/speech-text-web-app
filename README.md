@@ -22,38 +22,38 @@ $ cd speech-text-web-app
 Look at the `.env.example` file and create a `.env.dev` file with the same variables.
 Or see [here](./docs/todo.md) for a starter and search for heading Dev Environment.
 
-#### 2. Build frontend assets
+#### 3. Build frontend assets
 
 ```sh
 $ docker-compose run --rm node sh -c "npm i && npm run build-dev"
 ```
-#### 3. Load Vosk model
+#### 4. Load Vosk model
 
 ```sh
 $ docker-compose run --rm python sh -c "python manage.py load_vosk_model -m vosk-model-small-de-0.15"
 ```
 
-#### 4. Start database and make migrations
+#### 5. Start database and make migrations
 
 ```sh
 $ docker-compose up -d postgres
 $ docker-compose run --rm python sh -c "python manage.py migrate"
 ```
 
-#### 5. Start application as whole
+#### 6. Start application as whole
 
 ```sh
 $ docker-compose up -d postgres python
 ```
 
-#### 6. Stop application
+#### 7. Stop application
 
 ```sh
 $ docker-compose down
 ```
 You can now access the web application at [http://localhost:8000](http://localhost:8000).
 
-After you are done with steps 1 to 4 for the first time, you just need to run steps 5 & 6 from then on.
+After you are done with steps 1 to 5 for the first time, you just need to run steps 6 & 7 from then on.
 
 ## Screenshots
 
