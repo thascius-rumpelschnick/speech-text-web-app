@@ -27,6 +27,7 @@ Env File: `.env.dev`
     SECRET_KEY=django-insecure-36l34bzn8j5r4@^5pabbfcnev+*1ue*p2$!@v$+reu1@a898%!
     DEBUG=TRUE
     ALLOWED_HOSTS=*
+    CSRF_TRUSTED_ORIGINS=http://localhost
     STATIC_ROOT=
     
     # API Key
