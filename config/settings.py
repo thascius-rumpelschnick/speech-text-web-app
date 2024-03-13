@@ -32,6 +32,8 @@ DEBUG = environment.get('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = [environment['ALLOWED_HOSTS']]
 
+CSRF_TRUSTED_ORIGINS = environment.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
+
 if DEBUG:
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = [ip[: ip.rfind('.')] + '.1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
