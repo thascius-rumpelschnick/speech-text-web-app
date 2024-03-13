@@ -1,5 +1,4 @@
 import "./App.scss";
-import { isError } from "lodash";
 
 import React, { useContext, useEffect } from "react";
 import { Alert } from "react-bootstrap";
