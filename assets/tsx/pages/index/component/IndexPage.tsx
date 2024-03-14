@@ -14,7 +14,7 @@ const IndexPage = () => {
                     <p>
                         This is a simple web application that allows you to record audio with your web browser and let it
                         be transcribed as text. The transcribed text can then be edited. All your transcriptions are stored and can
-                        be viewed, edited or deleted at any time. You can also download the transcriptions as a PDF file (However, not yet implemented!).
+                        be viewed, edited or deleted at any time. You can also download the transcriptions as a PDF file.
                     </p>
                 </Col>
             </Row>
