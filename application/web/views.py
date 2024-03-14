@@ -278,7 +278,7 @@ class EditTranscriptionView(View):
         tokens = get_tokens(request)
         user = get_user(request)
 
-        if not user or not Transcription.objects.filter(id=transcription_id).exists():
+        if not user or not Transcription.objects.filter(id=transcription_id, user_id=user['id']).exists():
             return redirect('index')
 
         entity = Transcription.objects.get(id=transcription_id)
@@ -301,7 +301,7 @@ class EditTranscriptionView(View):
     def post(self, request, transcription_id):
         user = get_user(request)
 
-        if not user or not Transcription.objects.filter(id=transcription_id).exists():
+        if not user or not Transcription.objects.filter(id=transcription_id, user_id=user['id']).exists():
             return redirect('index')
 
         entity = Transcription.objects.get(id=transcription_id)
@@ -320,13 +320,14 @@ class DeleteTranscriptionView(View):
     def get(self, request, transcription_id):
         user = get_user(request)
 
-        if not user or not Transcription.objects.filter(id=transcription_id).exists():
+        if not user or not Transcription.objects.filter(id=transcription_id, user_id=user['id']).exists():
             return redirect('index')
 
         entity = Transcription.objects.get(id=transcription_id)
         entity.delete()
 
         return redirect('index')
+
 
 class DownloadTranscriptionView(View):
 
@@ -356,3 +357,21 @@ class DownloadTranscriptionView(View):
             return HttpResponse(f'We had some errors with code {pisa_status.err} <pre>{content_as_html}</pre>')
 
         return response
+
+
+def handler404(request, exception):
+    LOGGER.error(f'404 error: {exception}')
+
+    return redirect('index')
+
+
+def handler403(request, exception):
+    LOGGER.error(f'403 error: {exception}')
+
+    return redirect('index')
+
+
+def handler500(request):
+    LOGGER.error('500 error')
+
+    return redirect('index')

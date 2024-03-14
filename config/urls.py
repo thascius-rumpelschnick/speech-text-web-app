@@ -22,3 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
+
+handler404 = "application.web.views.handler404"
+handler300 = "application.web.views.handler403"
+handler500 = "application.web.views.handler500"
