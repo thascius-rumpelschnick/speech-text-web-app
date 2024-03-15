@@ -1,13 +1,6 @@
 import { EditorRefPlugin } from "@lexical/react/LexicalEditorRefPlugin";
 import { $generateNodesFromDOM, $generateHtmlFromNodes } from "@lexical/html";
-import {
-    LexicalEditor,
-    $getRoot,
-    $createTextNode,
-    ParagraphNode,
-    $insertNodes,
-    type EditorState,
-} from "lexical";
+import { LexicalEditor, $getRoot, $createTextNode, ParagraphNode, $insertNodes, type EditorState } from "lexical";
 import _ from "lodash";
 import React, { useState, useRef, useEffect } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
@@ -18,7 +11,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import Button from "react-bootstrap/Button";
 import { Transcription } from "../../interfaces/ContainerProps";
-import { Pencil, Book, CloudArrowUp, Floppy } from "../icons/Icons";
+import { Pencil, Book, Floppy } from "../icons/Icons";
 import TreeViewPlugin from "./plugins/TreeViewPlugin";
 import MyCustomAutoFocusPlugin from "./plugins/MyCustomAutoFocusPlugin";
 import editorConfig from "./editorConfig";
@@ -39,7 +32,6 @@ const Placeholder = () => <div className="editor-placeholder">Enter some plain t
  */
 const Editor = ({ transcription, updateTranscription, isDebug = false }: EditorProps) => {
     const [ transcriptionEdit, setTranscriptionEdit ] = useState(transcription);
-    const [ contentAsHtml, setContentAsHtml ] = useState<string | undefined>(transcription.contentAsHtml);
     const [ isEditable, setIsEditable ] = useState(editorConfig.editable);
 
     const editorRef = useRef<LexicalEditor>(null);
@@ -63,7 +55,7 @@ const Editor = ({ transcription, updateTranscription, isDebug = false }: EditorP
             }
 
             const contentAsHtml = $generateHtmlFromNodes(editorRef.current as LexicalEditor);
-            setContentAsHtml(contentAsHtml);
+            setTranscriptionEdit((prevTranscriptionEdit) => ({ ...prevTranscriptionEdit, contentAsHtml }));
         });
     };
 
@@ -75,9 +67,10 @@ const Editor = ({ transcription, updateTranscription, isDebug = false }: EditorP
     };
 
     const onChange = (editorState: EditorState, editor: LexicalEditor) => {
+        let contentAsHtml: string | undefined;
+
         editor.update(() => {
-            const htmlFromNodes = $generateHtmlFromNodes(editor);
-            setContentAsHtml(htmlFromNodes);
+            contentAsHtml = $generateHtmlFromNodes(editor);
         });
 
         editorState.read(() => {
